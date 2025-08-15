@@ -1,0 +1,23 @@
+WARNING:huggingface_hub.file_download:Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+ERROR:root:Erreur génération intro pour UTEEK: Requested tokens (85214) exceed context window of 4096
+ERROR:root:Erreur génération intro pour The Road: Requested tokens (6020) exceed context window of 4096
+ERROR:root:Erreur génération intro pour Zahou Tech: Requested tokens (5029) exceed context window of 4096
+ERROR:root:Erreur génération intro pour REWEB: Requested tokens (11610) exceed context window of 4096
+ERROR:root:Erreur génération intro pour Capgemini: Requested tokens (4296) exceed context window of 4096
+ERROR:root:Erreur génération intro pour AKQA: Requested tokens (14555) exceed context window of 4096
+ERROR:root:Erreur génération intro pour Pureclic: Requested tokens (7966) exceed context window of 4096
+ERROR:root:Erreur génération intro pour iTrend: Requested tokens (7061) exceed context window of 4096
+ERROR:root:Erreur génération intro pour SKWERE: Requested tokens (135838) exceed context window of 4096
+ERROR:root:Erreur génération intro pour ONLYTECH: Requested tokens (4976) exceed context window of 4096
+ERROR:root:Erreur génération intro pour Touchlink: Requested tokens (64669) exceed context window of 4096
+ERROR:root:Erreur génération intro pour Tecyom: Requested tokens (16966) exceed context window of 4096
+ERROR:root:Erreur génération intro pour Wedia: Requested tokens (6868) exceed context window of 4096
+ERROR:root:Erreur génération intro pour : Requested tokens (32149) exceed context window of 4096
+ERROR:root:Erreur génération intro pour Xtensus: Requested tokens (10896) exceed context window of 4096
+ERROR:root:Erreur génération intro pour ITGate Group: Requested tokens (6529) exceed context window of 4096
+ERROR:root:Erreur génération intro pour STEPS: Requested tokens (12563) exceed context window of 4096
+ERROR:root:Erreur génération intro pour Solixy: Requested tokens (4211) exceed context window of 4096
+ERROR:root:Erreur génération intro pour MBB INFO: Requested tokens (13715) exceed context window of 4096
+ERROR:root:Erreur génération intro pour Tanit Web: Requested tokens (4646) exceed context window of 4096
+ERROR:root:Erreur génération intro pour Wevioo: Requested tokens (8581) exceed context window of 4096
+ERROR:root:Erreur génération intro pour YADI Studio: Requested tokens (80720) exceed context window of 4096

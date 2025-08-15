@@ -1,0 +1,108 @@
+/* Typographies (disponibles) */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Roboto:wght@300;400;500&family=Inter:wght@300;400;600&family=Poppins:wght@300;400;600&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    color: #2c3e50;
+}
+
+/* En-tête */
+.header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border-left: 5px solid #6a11cb;
+}
+
+.subheader {
+    color: #7f8c8d;
+    font-size: 1.05rem;
+    margin-top: -0.4rem;
+    font-weight: 300;
+}
+
+/* Cartes KPI & Info */
+.kpi-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    border-top: 4px solid #6a11cb;
+    margin-bottom: 1rem;
+    height: auto;
+    border: 1px solid rgba(0,0,0,0.04);
+}
+
+.kpi-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+.kpi-header { display: flex; align-items: center; margin-bottom: 0.6rem; }
+.kpi-icon { font-size: 1.8rem; margin-right: 0.7rem; color: #6a11cb; }
+.kpi-title { font-weight: 600; color: #34495e; font-size: 1.05rem; }
+.kpi-value { font-size: 2.2rem; font-weight: 700; color: #2c3e50; line-height: 1; }
+.kpi-desc { font-size: 0.9rem; color: #7f8c8d; font-weight: 400; }
+
+.kpi-explanation, .viz-explanation {
+    background: #f8f9fa;
+    padding: 0.9rem;
+    border-radius: 8px;
+    margin: 0.6rem 0 1rem;
+    font-size: 0.95rem;
+    border-left: 3px solid #3498db;
+}
+
+/* Section Fichiers */
+.file-card {
+    background: white;
+    padding: 1.2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    height: 100%;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+.file-card h4 { color: #6a11cb; margin-top: 0; }
+.file-card a {
+    display: inline-block;
+    background: #6a11cb;
+    color: white;
+    padding: 0.45rem 0.9rem;
+    border-radius: 6px;
+    text-decoration: none;
+    margin-top: 0.6rem;
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+.file-card a:hover { background: #2575fc; transform: translateY(-2px); }
+
+/* Onglets */
+.stTabs [data-baseweb="tab-list"] { gap: 6px; }
+.stTabs [data-baseweb="tab"] {
+    background: #f8f9fa !important;
+    border-radius: 10px !important;
+    padding: 10px 16px !important;
+    transition: all 0.3s ease !important;
+    font-weight: 500 !important;
+}
+.stTabs [data-baseweb="tab"]:hover { background: #e9ecef !important; }
+.stTabs [aria-selected="true"] {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header { padding: 1rem; }
+    .kpi-card { padding: 1rem; }
+    .kpi-value { font-size: 1.9rem; }
+}

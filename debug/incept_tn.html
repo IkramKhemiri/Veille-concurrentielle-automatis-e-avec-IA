@@ -1,0 +1,525 @@
+<html lang="en" data-ng-app="Incept"><head><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\:form{display:block;}.ng-animate-block-transitions{transition:0s all!important;-webkit-transition:0s all!important;}.ng-hide-add-active,.ng-hide-remove{display:block!important;}</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="We believe in the power of immersion to allow a full experience of the surrounding world. This is done by providing experiential digital technologies and solutions at the cutting edge of augmented reality and IoT.">
+    <meta name="author" content="Sofiane Chaieb">
+    <title>Incept | Enhancing Reality</title>
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <meta name="keywords" content="Incept, Incept solutions, réalité augmentée, réalité mixte, hololens, meta, arcore, arkit, tango, tunis, incept office, projection 3D, projection mapping, hologrammes, projection holographique, miroir intéractif, totem, kiosque, insept, mur intéractif, expérience immersive, immersion, interactive, experiential, Tunisia, Enhanced Reality, Augmented Reality, Mixed Reality, Virtual Reality, Robotics, Computer vision, Holograms, Projection Mapping, 3D scanner, Inception, Encept, Tunisie">
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <!-- Material Design fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Bootstrap Material Design -->
+    <link href="css/bootstrap-material-design.css" rel="stylesheet">
+    <link href="css/ripples.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css/animate.css" rel="stylesheet">
+    <!-- Theme CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="color/default.css" rel="stylesheet">
+    <!-- Cards with Overlay -->
+    <link href="css/cards-overlay.css" rel="stylesheet">
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <!-- AngularJS -->
+    <script type="text/javascript" src="https://code.angularjs.org/1.2.25/angular.min.js"></script>
+    <script type="text/javascript" src="js/modules/promise-tracker.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbarv-custom">
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circle-loader" width="50" height="50">
+                <circle class="path" stroke-miterlimit="10" stroke-width="6" fill="none" r="20" cy="25" cx="25">
+            </circle></svg>
+        </div>
+    </div>
+    <nav class="navbarv navbarv-custom navbarv-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbarv-header page-scroll">
+                <button type="button" class="navbarv-toggle" data-toggle="collapse" data-target=".navbarv-main-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbarv-brand" href="index.html">
+                    <!-- <h1>INCEPT</h1> -->
+                    <img class="navbarv-image" src="img/Logo_horizontal.png">
+                </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbarv-collapse navbarv-right navbarv-main-collapse">
+                <ul class="nav navbarv-nav">
+                    <li class="active"><a href="#intro">Home</a></li>
+                    <li><a href="#serviceMenu">Services</a></li>
+                    <li><a href="#productsMenu">Products</a></li>
+                    <li><a href="#aboutMenu">About</a></li>
+                    <li><a href="#teamMenu">Team</a></li>
+                    <li><a href="#contactMenu">Contact</a></li>
+                    <!-- <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Example menu</a></li>
+            <li><a href="#">Example menu</a></li>
+            <li><a href="#">Example menu</a></li>
+          </ul>
+        </li> -->
+                </ul>
+            </div>
+            <!-- /.navbarv-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!-- <video  loop poster="img/bg1_old.jpg" id="bgvid" preload="auto">
+	    <source src="img/video/video.webm" type="video/webm">
+	    <source src="img/video/video.mp4" type="video/mp4">
+	    <source src="img/video/video.ogv" type="video/ogv">
+	</video> -->
+    <!-- Section: intro -->
+    <section id="intro" class="intro">
+        <div class="bgr"></div>
+        <div class="slogan">
+            <div class="row">
+                <div class="col-xs-1 col-md-1"></div>
+                <div class="col-xs-5 col-md-4">
+                    <h2>ENHANCING <span style="color:#00bcd4;">REALITY</span> </h2>
+                    <h4>Because we believe in the power of immersion to allow a full experience of the surrounding world</h4>
+                    <a id="scrollLink" href="#" class="btn btn-raised btn-info"><i class="material-icons" style="margin-right:5px;">send</i> More Info</a>
+                </div>
+                <div class="col-xs-6 col-md-7"></div>
+            </div>
+        </div>
+        <div class="icon-scroll">
+            <!-- <a href="#service" class="btn btn-circle"> -->
+            <!-- <i class="fa fa-angle-double-down animated"></i> -->
+            <!-- </a> -->
+        </div>
+    </section>
+    <!-- /Section: intro -->
+    <!-- Section: services -->
+    <span id="serviceMenu" style="position:relative;bottom:40px;"></span>
+    <section id="service" class="home-section text-center boxed-dark">
+        <div class="heading-about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="wow fadeInDown" data-wow-delay="0.4s">
+                            <div class="section-heading">
+                                <h2>Our Services</h2>
+                                <i class="fa fa-2x fa-angle-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2 col-lg-offset-5">
+                    <!-- <hr class="marginbot-30"> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 col-md-3">
+                    <div class="wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="service-box">
+                            <div class="service-icon">
+                                <img src="img/icons/service-icon-1.png" alt="">
+                            </div>
+                            <div ga-on="mouseenter,click" ga-event-category="Service" ga-event-label="Mobile AR" class="service-desc">
+                                <h5>Mobile Augmented Reality</h5>
+                                <p>Developing iOS and Android solutions featuring next-generation AR technologies like ARKit and ARCore.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <div class="wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="service-box">
+                            <div class="service-icon">
+                                <img src="img/icons/service-icon-2.png" alt="">
+                            </div>
+                            <div ga-on="mouseenter,click" ga-event-category="Service" ga-event-label="MR Smartglasses" class="service-desc">
+                                <h5>Mixed Reality Smartglasses</h5>
+                                <p>Taking the user experience to the next level with the design of interactive experiential 3D content.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <div class="wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="service-box">
+                            <div class="service-icon">
+                                <img src="img/icons/service-icon-3.png" alt="">
+                            </div>
+                            <div ga-on="mouseenter,click" ga-event-category="Service" ga-event-label="Holograms" class="service-desc">
+                                <h5>Holograms &amp; 3D Mapping</h5>
+                                <p>Crafting innovative and genuine holographic concepts combining tailor-made software and hardware.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-sm-3 col-md-3">
+				<div class="wow fadeInRight" data-wow-delay="0.2s">
+                <div class="service-box">
+					<div class="service-icon">
+						<img src="img/icons/service-icon-4.png" alt="" />
+					</div>
+					<div class="service-desc">
+						<h5>3D Printing & 3D Scanning</h5>
+						<p>Vestibulum tincidunt enim in pharetra malesuada. Duis semper magna metus electram accommodare.</p>
+					</div>
+                </div>
+				</div>
+            </div> -->
+                <div class="col-sm-3 col-md-3">
+                    <div class="wow fadeInRight" data-wow-delay="0.2s">
+                        <div class="service-box">
+                            <div class="service-icon">
+                                <img src="img/icons/service-icon-4.png" alt="">
+                            </div>
+                            <div ga-on="mouseenter,click" ga-event-category="Service" ga-event-label="IoT" class="service-desc">
+                                <h5>Intelligence of Things</h5>
+                                <p>Designing AI enabled connected devices and intelligent systems with a scalable backend infrastructure.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /Section: services -->
+    <!-- Section: Featured products -->
+    <span id="productsMenu" style="position:relative;bottom:40px;"></span>
+    <section id="products" class="home-section text-center boxed-white">
+        <div class="heading-about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="wow fadeInDown" data-wow-delay="0.4s">
+                            <div class="section-heading">
+                                <h2>Featured Products</h2>
+                                <i class="fa fa-2x fa-angle-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="wow fadeInUp" data-wow-delay="0.4s">
+                <div class="row">
+                    <div class="col-lg-2 col-lg-offset-5">
+                        <!-- <hr class="marginbot-30"> -->
+                    </div>
+                </div>
+                <div class="row paper owl-carousel owl-theme">
+                    <div class="col-sm-3 col-md-4">
+                        <main ga-on="click" ga-event-category="Products" ga-event-label="Museum of Sousse" id="container_paper">
+                            <h5 class="orange">Mobile Application <span class="black">| 2016</span></h5>
+                            <h4>Archaeo. Museum of Sousse</h4>
+                            <div class="img-wrapper">
+                                <img src="img/products/SousseMuseum.jpg" alt="Museum of Sousse">
+                            </div>
+                            <p class="detail">Experience culture in a new way through a mobile application where ancient gods come to life from their mosaics. All of this and more augmented experiences around the museum await you.</p>
+                            <!-- <div class="button-wrapper">
+				      <div class="layer"></div>
+				      <button class="main-button fa">
+				          <i class="material-icons" style="color: white;">send</i>
+				      </button>
+				  </div>
+
+				  <div class="layered-content">
+				      <button class="close-button fa fa-times"></button>
+				      <div class="content">
+				          <img src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/111167/profile/profile-512_4.jpg" alt="Balapa">
+				          <p>Crafted by balapa.</p>
+				          <p>See also my <a href="http://codepen.io/balapa/details/gbQbXR/">other pen</a></p>
+				      </div>
+				  </div> -->
+                        </main>
+                    </div>
+                    <div class="col-sm-3 col-md-4">
+                        <main ga-on="click" ga-event-category="Products" ga-event-label="Holowave" id="container_paper">
+                            <h5 class="blue">Holographic Displays <span class="black">| 2017</span></h5>
+                            <h4>Holowave</h4>
+                            <div class="img-wrapper">
+                                <img src="img/products/Holowave.jpg" alt="Holowave">
+                            </div>
+                            <p class="detail">A connected device describing your location's real-time weather in 3D. Additionaly, it displays a 3-day forecast and a random quote per day. Custom 3D content integration is available. </p>
+                            <!-- <div class="button-wrapper">
+				      <div class="layer"></div>
+				      <button class="main-button fa">
+				          <i class="material-icons" style="color: white;">send</i>
+				      </button>
+				  </div>
+
+				  <div class="layered-content">
+				      <button class="close-button fa fa-times"></button>
+				      <div class="content">
+				          <img src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/111167/profile/profile-512_4.jpg" alt="Balapa">
+				          <p>Crafted by balapa.</p>
+				          <p>See also my <a href="http://codepen.io/balapa/details/gbQbXR/">other pen</a></p>
+				      </div>
+				  </div> -->
+                        </main>
+                    </div>
+                    <div class="col-sm-3 col-md-4">
+                        <main ga-on="click" ga-event-category="Products" ga-event-label="HoloPyramid" id="container_paper">
+                            <h5 class="blue">Holographic Displays <span class="black">| 2017</span></h5>
+                            <h4>HoloPyramid</h4>
+                            <div class="img-wrapper">
+                                <img src="img/products/Holopyramid.jpg" alt="Holopyramid">
+                            </div>
+                            <p class="detail">A two-meters wide pyramid hologram for shocasing products at conferences and networking events. the content is designed in 3D and allows for interaction with motion sensors.</p>
+                            <!-- <div class="button-wrapper">
+				      <div class="layer"></div>
+				      <button class="main-button fa">
+				          <i class="material-icons" style="color: white;">send</i>
+				      </button>
+				  </div>
+
+				  <div class="layered-content">
+				      <button class="close-button fa fa-times"></button>
+				      <div class="content">
+				          <img src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/111167/profile/profile-512_4.jpg" alt="Balapa">
+				          <p>Crafted by balapa.</p>
+				          <p>See also my <a href="http://codepen.io/balapa/details/gbQbXR/">other pen</a></p>
+				      </div>
+				  </div> -->
+                        </main>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /Section: Featured Products -->
+    <!-- Section: about -->
+    <span id="aboutMenu" style="position:relative;bottom:40px;"></span>
+    <section id="about" class="home-section text-center boxed-dark">
+        <div class="heading-about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="wow fadeInDown" data-wow-delay="0.4s">
+                            <div class="section-heading">
+                                <h2>About Us</h2>
+                                <i class="fa fa-2x fa-angle-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2 col-lg-offset-5">
+                    <!-- <hr class="marginbot-30"> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="wow fadeInUp" data-wow-delay="0.4s">
+                    <div class="col-md-5">
+                        <h4>
+						Incept is a Tunisian tech startup providing experiential digital technologies and solutions at the cutting edge of Augmented Reality, Holographic Projection and Intelligence of Things.<br><br>
+						Our idea is to use the power of immersion to allow the blending of the digital and physical worlds. By giving a full experience of the surrounding environment, we push users to seek the information instead of just passively receiving it.<br><br>
+						This is done by providing technologies and solutions at the cutting edge of augmented reality, virtual reality, projection mapping, holograms and robotics.
+						</h4>
+                    </div>
+                    <div class="col-md-7">
+                        <div ga-on="click" ga-event-category="Video" ga-event-label="play" id="player"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /Section: about -->
+    <!-- Section: Our Team -->
+    <!-- TODO: Partners and experts -->
+    <span id="teamMenu" style="position:relative;bottom:40px;"></span>
+    <section id="team" class="home-section text-center">
+        <div class="heading-about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="wow fadeInDown" data-wow-delay="0.4s">
+                            <div class="section-heading">
+                                <h2 style="color:white">Our Team</h2>
+                                <i class="fa fa-2x fa-angle-down" style="color:white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2 col-lg-offset-5">
+                    <!-- <hr class="marginbot-30"> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <div class="wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="team">
+                            <div class="inner">
+                                <div class="avatar"><img src="img/team/Sofiane.png" alt="" class="img-responsive img-circle"></div>
+                                <h5 style="color:white">Sofiane Chaieb</h5>
+                                <p class="subtitle" style="color:white">Galactic Admiral</p>
+                                <!-- The Jedi -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-xs-6 col-sm-3 col-md-2">
+                    <div class="wow fadeInUp" data-wow-delay="0.5s">
+                        <div class="team">
+                            <div class="inner">
+                                <div class="avatar"><img src="img/team/Fahd.png" alt="" class="img-responsive img-circle fahd" /></div>
+                                <h5 style="color:white">Fahd Slimani</h5>
+                                <p class="subtitle" style="color:white">Software Prophet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <div class="wow fadeInUp" data-wow-delay="0.8s">
+                        <div class="team">
+                            <div class="inner">
+                                <div class="avatar"><img src="img/team/Bouker.png" alt="" class="img-responsive img-circle"></div>
+                                <h5 style="color:white">Houssemeddine Bouker</h5>
+                                <p class="subtitle" style="color:white">Mecatronic Ambassador</p>
+                                <!-- Digital prophet -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <div class="wow fadeInUp" data-wow-delay="1s">
+                        <div class="team">
+                            <div class="inner">
+                                <div class="avatar"><img src="img/team/Ramy.png" alt="" class="img-responsive img-circle"></div>
+                                <h5 style="color:white">Ramy Othmani</h5>
+                                <p class="subtitle" style="color:white">Dream Alchemist</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-xs-6 col-sm-3 col-md-2">
+                    <div class="wow fadeInUp" data-wow-delay="1s">
+                        <div class="team">
+                            <div class="inner">
+                                <div class="avatar"><img src="img/team/Wassim.png" alt="" class="img-responsive img-circle wassim" /></div>
+                                <h5 style="color:white">Wassim El Hammami</h5>
+                                <p class="subtitle" style="color:white">Dreams Fulfiller</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </section>
+    <!-- /Section: Our Team-->
+    <!-- Section: contact -->
+    <span id="contactMenu" style="position:relative;bottom:40px;"></span>
+    <section id="contact" class="home-section text-center boxed-dark">
+        <div class="heading-contact">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="wow fadeInDown" data-wow-delay="0.4s">
+                            <div class="section-heading">
+                                <h2>Get in touch</h2>
+                                <i class="fa fa-2x fa-angle-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="margin-bottom: 20px;">
+            <div class="row">
+                <div class="col-lg-2 col-lg-offset-5">
+                    <!-- <hr class="marginbot-50"> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                	<div class="wow fadeInUp" data-wow-delay="0.4s">
+                        <div class="contact-container">
+                            <div data-ng-controller="help" class="boxed-grey">
+                                <form id="contact-form bs-component" name="helpForm" novalidate="" role="form">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label" for="name">Name
+                                            <span class="label label-danger" data-ng-show="submitted &amp;&amp; helpForm.name.$error.required">Required</span>
+                                        </label>
+                                        <input id="name" class="form-control" type="text" name="name" data-ng-model="name" required="">
+                                        <!-- <span class="material-input"></span> -->
+                                    </div>
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label" for="email">E-mail
+                                            <span class="label label-danger" data-ng-show="submitted &amp;&amp; helpForm.email.$error.required">Required</span>
+                                            <span class="label label-danger" data-ng-show="submitted &amp;&amp; helpForm.$error.email">Invalid email</span>
+                                        </label>
+                                        <input type="email" class="form-control" name="email" data-ng-model="email" required="">
+                                        <!-- <span class="material-input"></span> -->
+                                    </div>
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label" for="subjectList">Subject
+                                            <span class="label label-danger" data-ng-show="submitted &amp;&amp; helpForm.subjectList.$error.required">Required</span>
+                                        </label>
+                                        <select name="subjectList" data-ng-model="subjectList" data-ng-options="id as value for (id, value) in subjectListOptions" class="form-control" required="">
+                                            <option value=""></option>
+                                        </select>
+                                        <!-- <span class="material-input"></span> -->
+                                    </div>
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label" for="comments">Message
+                                            <span class="label label-danger" data-ng-show="submitted &amp;&amp; helpForm.comments.$error.required">Required</span>
+                                        </label>
+                                        <textarea name="comments" data-ng-model="comments" class="form-control" rows="7" cols="25" required=""></textarea>
+                                        <!-- <span class="material-input"></span> -->
+                                    </div>
+                                    <button data-ng-show="!messages" type="submit" class="btn btn-raised btn-info" id="btnContactUs" data-ng-disabled="progress.active()" data-ng-click="submit(helpForm)">
+                                        <span data-ng-show="!progress.active()">Submit</span><span data-ng-show="progress.active()">Sending...</span>
+                                    </button>
+                                    <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="wow fadeInDown" data-wow-delay="0.4s">
+                        <div class="widget-contact">
+                            <div id="map" style="position: relative; background-color: rgb(229, 227, 223); overflow: hidden; box-shadow: 0 5px 15px 0 rgba(0,0,0,0.25);"></div>
+                            <address style="display:none;">Incept, 10 Avenue Louis Braille, Tunis Belvédère, 1002, Tunisia contact@incept.tn </address>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /Section: contact -->
+    <footer>
+        <!-- TODO: Add Facebook, Youtube and Logo of partners / Prices -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <div class="wow shake" data-wow-delay="0.4s">
+                        <div class="page-scroll marginbot-10">
+                            <a href="#intro" id="totop" class="btn btn-circle">
+                                <i class="fa fa-angle-double-up animated"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <p>©Copyright 2018 - Incept. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Core JavaScript Files -->
+    <script src="js/jquery.min.js"></script></body></html>

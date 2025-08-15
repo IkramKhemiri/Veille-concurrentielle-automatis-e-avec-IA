@@ -1,0 +1,6 @@
+﻿metrique,valeur
+nb_sites,80
+top_tokens,"[('service', 86), ('solution', 80), ('web', 76), ('design', 73), ('development', 68), ('digital', 62), ('marketing', 61), ('technologie', 45), ('client', 38), ('entreprise', 37), ('website', 36), ('leading', 35), ('seo', 34), ('management', 31), ('services', 29), ('team', 29), ('mobile', 28), ('provider', 28), ('expert', 27), ('spécialisée', 23)]"
+top_lemmes,"[('service', 86), ('solution', 80), ('web', 76), ('design', 73), ('development', 68), ('digital', 62), ('marketing', 61), ('technologie', 45), ('client', 38), ('entreprise', 37), ('website', 36), ('leading', 35), ('seo', 34), ('management', 31), ('services', 29), ('team', 29), ('mobile', 28), ('provider', 28), ('expert', 27), ('spécialisée', 23)]"
+top_keywords,"[('web', 27), ('development', 23), ('marketing', 22), ('design', 22), ('service', 21), ('solution', 21), ('digital', 18), ('entreprise', 17), ('seo', 14), ('website', 14), ('mobile', 12), ('leading', 11), ('services', 10), ('provider', 9), ('social', 9), ('management', 9), ('graphic', 8), ('spécialisée', 6), ('développement', 6), ('innovativ', 6)]"
+score_moyen,7.47
