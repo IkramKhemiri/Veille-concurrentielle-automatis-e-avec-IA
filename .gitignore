@@ -1,0 +1,19 @@
+# Environnements virtuels
+.venv/
+venv/
+
+# Gros modèles
+models/
+*.gguf
+
+# Fichiers lourds JSON et résultats
+*.json
+resultats.json
+resultats_clean.json
+resultats_final.json
+
+# Logs
+*.log
+
+# Caches Python
+__pycache__/
