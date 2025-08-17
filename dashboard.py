@@ -1,4 +1,30 @@
-#dashboard.py 
+"""
+Rôle global :
+Ce module est une application interactive développée avec Streamlit pour visualiser, analyser et exporter les résultats 
+du pipeline de scraping et d'analyse. Il permet aux utilisateurs de naviguer dans les données, de générer des visualisations 
+interactives, et de produire des rapports analytiques.
+
+Pourquoi il est important :
+Dans le pipeline global (scraping → analyse → visualisation → rapport), ce module est crucial car il offre une interface 
+utilisateur intuitive pour explorer les résultats. Il transforme les données brutes et analysées en insights exploitables 
+et facilite la prise de décision grâce à des visualisations claires et des rapports exportables.
+
+Comment il aide dans le pipeline :
+- **Scraping** : Permet de charger et de visualiser les données extraites.
+- **Analyse** : Fournit des outils pour explorer les scores, les mots-clés et les tendances.
+- **Visualisation** : Génère des graphiques interactifs et des nuages de mots-clés.
+- **Rapport** : Offre des options d'exportation pour produire des rapports PDF ou des fichiers JSON/CSV.
+
+Technologies utilisées :
+- **Streamlit** : Pour créer une interface utilisateur interactive.
+- **Pandas** : Pour manipuler et filtrer les données.
+- **Plotly** : Pour générer des visualisations interactives.
+- **WordCloud** : Pour créer des nuages de mots-clés.
+- **FPDF** : Pour générer des rapports PDF.
+- **JSON** : Pour charger et sauvegarder les données structurées.
+- **Matplotlib** : Pour afficher les nuages de mots-clés.
+"""
+
 import streamlit as st
 import pandas as pd
 import json
@@ -17,7 +43,16 @@ from io import BytesIO
 # =========================
 #   CONFIGURATION DE PAGE
 # =========================
-# Charger l'icône personnalisée
+"""
+Rôle :
+Configure la page Streamlit avec un titre, une icône et une mise en page.
+
+Importance :
+Cette section définit l'apparence générale de l'application et améliore l'expérience utilisateur.
+
+Technologies utilisées :
+- **Streamlit** : Pour configurer les paramètres de la page.
+"""
 if os.path.exists("logos/logo-navitrends.png"):
     with open("logos/logo-navitrends.png", "rb") as f:
         logo_bytes = f.read()
@@ -39,6 +74,19 @@ else:
 #   UTILITAIRES STYLES
 # =========================
 def local_css(file_name: str):
+    """
+    Rôle :
+    Charge un fichier CSS local pour personnaliser le style de l'application.
+
+    Importance :
+    Permet de personnaliser l'apparence de l'application Streamlit avec des styles avancés.
+
+    Arguments :
+    - `file_name` : Le chemin du fichier CSS.
+
+    Retour :
+    Aucun retour. Applique les styles directement à l'application.
+    """
     try:
         with open(file_name, "r", encoding="utf-8") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
@@ -46,7 +94,19 @@ def local_css(file_name: str):
         st.warning(f"Fichier CSS introuvable: {file_name}")
 
 def apply_theme_css(theme):
-    """Injecte des overrides CSS selon le thème choisi."""
+    """
+    Rôle :
+    Applique un thème personnalisé à l'application en injectant du CSS.
+
+    Importance :
+    Permet de changer dynamiquement les couleurs et les styles de l'application en fonction du thème choisi.
+
+    Arguments :
+    - `theme` : Un dictionnaire contenant les couleurs et styles du thème.
+
+    Retour :
+    Aucun retour. Applique les styles directement à l'application.
+    """
     bg = theme["bg"]
     surface = theme["surface"]
     surface_alt = theme["surface_alt"]
@@ -112,6 +172,19 @@ def apply_theme_css(theme):
 #   LOTTIE (animations)
 # =========================
 def load_lottieurl(url):
+    """
+    Rôle :
+    Charge une animation Lottie à partir d'une URL.
+
+    Importance :
+    Ajoute des animations interactives pour améliorer l'expérience utilisateur.
+
+    Arguments :
+    - `url` : L'URL de l'animation Lottie.
+
+    Retour :
+    Les données JSON de l'animation ou `None` en cas d'échec.
+    """
     try:
         r = requests.get(url, timeout=8)
         if r.status_code != 200:
@@ -131,7 +204,19 @@ lottie_export    = load_lottieurl("https://assets4.lottiefiles.com/packages/lf20
 # =========================
 @st.cache_data
 def load_data(file_name='resultats_final.json'):
-    """Charge les données depuis un fichier JSON avec gestion robuste des formats"""
+    """
+    Rôle :
+    Charge les données depuis un fichier JSON et les convertit en DataFrame.
+
+    Importance :
+    Permet de charger les données structurées pour les visualiser et les analyser dans l'application.
+
+    Arguments :
+    - `file_name` : Le chemin du fichier JSON.
+
+    Retour :
+    Un DataFrame contenant les données chargées.
+    """
     try:
         with open(file_name, 'r', encoding='utf-8') as f:
             data = json.load(f)
@@ -529,6 +614,24 @@ def show_introduction():
 #   APPLICATION PRINCIPALE
 # =========================
 def main():
+    """
+    Rôle :
+    Point d'entrée principal de l'application Streamlit.
+
+    Fonctionnalité :
+    - Configure les styles et thèmes.
+    - Charge les données JSON.
+    - Affiche les visualisations interactives, les indicateurs clés et les options d'exportation.
+
+    Importance :
+    Cette fonction orchestre l'ensemble de l'application, permettant aux utilisateurs d'explorer et d'analyser les données.
+
+    Arguments :
+    Aucun argument direct.
+
+    Retour :
+    Aucun retour. L'application est affichée dans le navigateur.
+    """
     # CSS de base
     local_css("style.css")
 
