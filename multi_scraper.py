@@ -1,4 +1,28 @@
-#multi_scraper.py
+"""
+Rôle global :
+Ce module est conçu pour effectuer un scraping multi-site en parallèle, en utilisant les capacités de multiprocessing. 
+Il combine des approches dynamiques et statiques pour extraire les données des sites web, puis applique une analyse sémantique 
+pour enrichir les résultats. Enfin, il génère un rapport PDF et sauvegarde les données dans un fichier JSON.
+
+Pourquoi il est important :
+Dans le pipeline global (scraping → analyse → visualisation → rapport), ce module est essentiel car il automatise le traitement 
+de plusieurs sites en parallèle, réduisant ainsi le temps nécessaire pour collecter et analyser les données. Il garantit également 
+une gestion robuste des erreurs et des fallback (retours en arrière) pour maximiser le taux de succès.
+
+Comment il aide dans le pipeline :
+- **Scraping** : Extrait les données des sites web en utilisant des approches dynamiques (JavaScript) et statiques (HTML brut).
+- **Analyse** : Enrichit les données extraites avec une analyse sémantique pour structurer les informations.
+- **Visualisation** : Génère un rapport PDF contenant les résultats du scraping.
+- **Rapport** : Sauvegarde les données dans un fichier JSON pour une utilisation ultérieure.
+
+Technologies utilisées :
+- **Multiprocessing** : Pour exécuter le scraping en parallèle sur plusieurs sites.
+- **Logging** : Pour suivre les étapes du processus et gérer les erreurs.
+- **JSON** : Pour sauvegarder les résultats structurés.
+- **FPDF** : Pour générer un rapport PDF.
+- **Selenium** et **BeautifulSoup** : Pour le scraping dynamique et statique.
+"""
+
 import time
 import logging
 from multiprocessing import Pool, cpu_count
@@ -10,6 +34,7 @@ from analyse.analyseur_semantique import analyse_semantique_site as analyser_sem
 
 SITE_TIMEOUT = 150  # secondes max par site
 
+# Configuration du logger pour suivre les étapes du processus
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -18,6 +43,25 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 def process_result(raw_result, site_meta):
+    """
+    Rôle :
+    Traite les résultats bruts du scraping pour les enrichir avec des métadonnées et une analyse sémantique.
+
+    Fonctionnalité :
+    - Fusionne les données brutes avec les métadonnées du site.
+    - Applique une analyse sémantique pour structurer et enrichir les résultats.
+    - Gère les retours en arrière (fallback) en cas d'échec du scraping dynamique.
+
+    Importance :
+    Cette fonction garantit que les résultats sont complets, enrichis et prêts pour les étapes suivantes du pipeline.
+
+    Arguments :
+    - `raw_result` : Les données brutes extraites du site.
+    - `site_meta` : Les métadonnées du site (nom, URL).
+
+    Retour :
+    Un dictionnaire contenant les résultats enrichis.
+    """
     if not isinstance(raw_result, dict):
         raw_result = {"success": False, "error": "invalid result"}
 
@@ -55,6 +99,24 @@ def process_result(raw_result, site_meta):
     }
 
 def scrape_site_worker(site: dict) -> dict:
+    """
+    Rôle :
+    Effectue le scraping d'un site en utilisant une approche dynamique, avec fallback statique en cas d'échec.
+
+    Fonctionnalité :
+    - Tente d'extraire les données dynamiquement.
+    - Passe à une approche statique si le scraping dynamique échoue.
+    - Retourne les résultats enrichis avec les métadonnées du site.
+
+    Importance :
+    Cette fonction garantit que chaque site est traité de manière robuste, même en cas d'échec partiel.
+
+    Arguments :
+    - `site` : Un dictionnaire contenant les informations du site (nom, URL).
+
+    Retour :
+    Un dictionnaire contenant les résultats du scraping.
+    """
     name = site.get("name", "Nom inconnu")
     url = site.get("url", "")
     logger.info(f"🔍 Scraping: {name} ({url})")
@@ -71,6 +133,26 @@ def scrape_site_worker(site: dict) -> dict:
             return {"name": name, "url": url, "success": False, "error": str(e2)}
 
 def main():
+    """
+    Rôle :
+    Point d'entrée principal pour lancer le scraping multi-site.
+
+    Fonctionnalité :
+    - Charge la liste des sites à scraper.
+    - Exécute le scraping en parallèle en utilisant plusieurs processus.
+    - Sauvegarde les résultats dans un fichier JSON et génère un rapport PDF.
+
+    Importance :
+    Cette fonction orchestre l'ensemble du processus de scraping, garantissant une exécution efficace et une gestion robuste des erreurs.
+
+    Étapes :
+    1. Charge les sites depuis un fichier CSV.
+    2. Configure le multiprocessing pour traiter les sites en parallèle.
+    3. Sauvegarde les résultats et génère un rapport PDF.
+
+    Retour :
+    Aucun retour. Les résultats sont sauvegardés et affichés dans la console.
+    """
     logger.info("🚀 Lancement du scraping multi-site...")
     try:
         sites = load_sites("sites.csv")
