@@ -9,91 +9,257 @@ afin d'aider les équipes commerciales à :
 - Détecter de nouvelles opportunités
 
 ---
-
 ## 📂 Structure du projet
 
-TEST
-│
+Voici la structure détaillée du projet, enrichie avec des explications pour mieux comprendre le rôle de chaque fichier et dossier :
+
+TEST-CLEAN 
+│  
 ├── 📁 .venv  
-│   Environnement virtuel Python (packages et dépendances).
-│
+│   → Environnement virtuel Python qui contient tous les packages et dépendances nécessaires au projet.  
+│  
 ├── 📁 analyse  
-│   ├── 📁 __pycache__ — Cache Python compilé.  
-│   ├── 📄 analyseur_semantique.py — Analyse sémantique des textes.  
-│   ├── 📄 classifier_theme.py — Classification thématique.  
-│   └── 📄 resumeur.py — Génération de résumés automatiques.
-│
+│   → Scripts d’analyse intelligente (NLP, classification, résumé). C’est le cerveau du projet côté traitement du texte.  
+│   ├── 📁 __pycache__  
+│   │   → Cache Python généré automatiquement (peut être ignoré).  
+│   ├── 📄 analyseur_semantique.py  
+│   │   → Analyse le sens et les relations entre les mots pour enrichir la compréhension des textes.  
+│   ├── 📄 classifier_theme.py  
+│   │   → Classe les textes dans des thématiques précises (ex : marketing, IT, design).  
+│   └── 📄 resumeur.py  
+│       → Génère automatiquement des résumés synthétiques et clairs à partir des textes collectés.  
+│  
 ├── 📁 debug  
-│   Fichiers ou logs pour le débogage.
-│
+│   → Contient des fichiers et logs utiles pour tester et corriger les erreurs du projet.  
+│  
 ├── 📁 drivers  
-│   ├── 📁 chromedriver-win64 — Driver Chrome pour Selenium.  
-│   ├── 📁 edgedriver_win64 — Driver Edge pour Selenium.  
-│   ├── ⚙️ chromedriver.exe — Exécutable du driver Chrome.  
-│   ├── 📦 edgedriver_win64.zip — Archive driver Edge.  
-│   └── ⚙️ msedgedriver.exe — Exécutable du driver Edge.
-│
+│   → Drivers pour automatiser les navigateurs avec Selenium (Chrome, Edge).  
+│   ├── 📁 chromedriver-win64  
+│   ├── 📁 edgedriver_win64  
+│   ├── ⚙️ chromedriver.exe  
+│   ├── 📦 edgedriver_win64.zip  
+│   └── ⚙️ msedgedriver.exe  
+│       → Sans ces drivers, impossible de contrôler les navigateurs pour extraire les données.  
+│  
 ├── 📁 fonts  
-│   Polices utilisées dans les rapports PDF et graphiques.
-│
+│   → Polices personnalisées utilisées dans les rapports PDF et les visualisations graphiques.  
+│  
 ├── 📁 logos  
-│   Logos des entreprises ou plateformes.
-│
+│   → Regroupe les logos des entreprises et plateformes scrappées, utilisés dans les rapports.  
+│  
 ├── 📁 models  
-│   └── 🧠 mistral-7b-instruct-v0.1.Q4_K_M.gguf — Modèle NLP local pour analyses.
-│
+│   → Modèles d’IA locaux utilisés pour les analyses avancées.  
+│   └── 🧠 mistral-7b-instruct-v0.1.Q4_K_M.gguf  
+│       → Un modèle NLP performant pour résumer, classer et analyser les textes.  
+│  
 ├── 📁 scraping  
-│   ├── 📁 __pycache__ — Cache Python compilé.  
-│   ├── 📁 cleaned — Données nettoyées après scraping.  
-│   ├── 📄 ai_analysis.py — Analyse IA des contenus extraits.  
-│   ├── 📄 browser.py — Gestion du navigateur Selenium.  
-│   ├── 📄 cleaner.py — Nettoyage des données brutes.  
-│   ├── 📄 crawler.py — Parcours et collecte des données.  
-│   ├── 📄 extractor.py — Extraction d’informations ciblées.  
-│   ├── 📄 scraper_dynamic.py — Scraping dynamique (JavaScript).  
-│   ├── 📄 scraper_static.py — Scraping statique (HTML simple).  
-│   ├── 📄 section_extractor.py — Extraction de sections spécifiques.  
-│   └── 📄 text_classifier.py — Classification de textes.
-│
+│   → Le moteur de collecte des données. Tous les scripts pour extraire, nettoyer et préparer les informations.  
+│   ├── 📁 __pycache__  
+│   ├── 📁 cleaned  
+│   │   → Données déjà nettoyées après le scraping, prêtes à être analysées.  
+│   ├── 📄 ai_analysis.py  
+│   │   → Analyse assistée par IA du contenu collecté.  
+│   ├── 📄 browser.py  
+│   │   → Gère le navigateur Selenium (ouvrir, naviguer, fermer).  
+│   ├── 📄 cleaner.py  
+│   │   → Nettoie les données brutes en supprimant le bruit (balises HTML, caractères spéciaux, etc.).  
+│   ├── 📄 crawler.py  
+│   │   → Parcourt automatiquement les pages pour récupérer des liens et contenus.  
+│   ├── 📄 extractor.py  
+│   │   → Extrait des informations ciblées comme emails, téléphones, descriptions.  
+│   ├── 📄 scraper_dynamic.py  
+│   │   → Scraping des sites dynamiques (JavaScript, contenus générés en temps réel).  
+│   ├── 📄 scraper_static.py  
+│   │   → Scraping plus simple, basé uniquement sur le HTML statique.  
+│   ├── 📄 section_extractor.py  
+│   │   → Repère et extrait des sections précises (ex : "À propos", "Services").  
+│   └── 📄 text_classifier.py  
+│       → Classe automatiquement les textes scrappés par type ou catégorie.  
+│  
 ├── 📁 screenshots  
-│   Captures d’écran des pages scrappées.
-│
+│   → Captures d’écran des pages scrappées, utiles pour vérifier ou documenter les résultats.  
+│  
 ├── 📁 utils  
-│   ├── 📁 __pycache__ — Cache Python compilé.  
-│   ├── 📄 analyse_nlp.py — Traitement NLP.  
-│   ├── 📄 analyse_tfidf.py — Analyse TF-IDF des mots clés.  
-│   ├── 📄 detection.py — Détection d’informations (emails, numéros, etc.).  
-│   ├── 📄 io_handler.py — Gestion lecture/écriture de fichiers.  
-│   ├── 📄 pdf_report.py — Génération de rapports PDF.  
-│   ├── 📄 rapport_final.py — Génération du rapport final consolidé.  
-│   └── 📄 synthese_nlp.py — Synthèse des analyses NLP.
-│
+│   → Boîte à outils du projet : tout ce qui facilite la manipulation des données et des rapports.  
+│   ├── 📁 __pycache__  
+│   ├── 📄 analyse_nlp.py  
+│   │   → Fonctions de traitement NLP (analyse linguistique avancée).  
+│   ├── 📄 analyse_tfidf.py  
+│   │   → Calcule l’importance des mots dans les textes grâce à la méthode TF-IDF.  
+│   ├── 📄 detection.py  
+│   │   → Détecte des infos clés comme emails, numéros de téléphone, adresses.  
+│   ├── 📄 io_handler.py  
+│   │   → Gère la lecture et l’écriture des fichiers (JSON, CSV, etc.).  
+│   ├── 📄 pdf_report.py  
+│   │   → Génère automatiquement des rapports PDF professionnels.  
+│   ├── 📄 rapport_final.py  
+│   │   → Assemble toutes les analyses en un rapport final clair et structuré.  
+│   └── 📄 synthese_nlp.py  
+│       → Produit une synthèse globale des résultats NLP (résumés, mots-clés, tendances).  
+│  
 ├── 📁 visualisations  
-│   📊 Graphiques et nuages de mots générés.  
-│   ├── 🖼 global_bigrams_wc.png — Nuage de mots (bigrams).  
-│   ├── 🖼 global_bigrams.png — Graphique bigrams.  
-│   ├── 🖼 global_trigrams_wc.png — Nuage de mots (trigrams).  
-│   └── 🖼 global_trigrams.png — Graphique trigrams.
-│
-├── 📝 content_cleaner.log — Journal du nettoyage de contenu.  
-├── 📄 dashboard.py — Interface Dashboard (Streamlit).  
-├── 📄 envoi_mail.py — Envoi automatique des rapports par mail.  
-├── 📄 json_to_pdf.py — Conversion JSON → PDF.  
-├── 🗂 logo_mapping.json — Mapping entre noms et fichiers logos.  
-├── 📄 multi_scraper.py — Lance plusieurs scrapers en parallèle.  
-├── 📄 nettoyage_base.py — Script de nettoyage de la base de données.  
-├── 📄 nlp_tfidf_visualisation.py — Visualisation des scores TF-IDF.  
-├── 📝 pipeline.log — Journal d’exécution du pipeline.  
-├── 📄 runall.py — Lance tout le pipeline complet.  
-├── 📝 scraper.log — Journal du scraping.  
-├── 📄 style.css — Feuille de style pour le Dashboard.  
-├── 📄 sites.csv — Liste des sites à scraper.
-│
-├── 📄 resultats_clean.json — Résultats nettoyés.  
-├── 📄 resultats_final.json — Résultats finaux après traitement.  
-├── 📄 resultats.json — Résultats bruts.
-│
-├── 📄 rapport_entreprises.pdf — Rapport PDF entreprises.  
-├── 📄 rapport_final.pdf — Rapport PDF final.  
-├── 🖼 rapport_freelance_*.png — Graphiques des rapports freelances.  
-└── 📄 rapport_sites.pdf — Rapport PDF par site.
+│   → Résultats visuels : graphiques et nuages de mots pour illustrer les analyses.  
+│   ├── 🖼 global_bigrams_wc.png  
+│   ├── 🖼 global_bigrams.png  
+│   ├── 🖼 global_trigrams_wc.png  
+│   └── 🖼 global_trigrams.png  
+│       → Ces images aident à comprendre rapidement les thèmes dominants.  
+│  
+├── 📝 content_cleaner.log  
+│   → Journal listant les étapes de nettoyage du contenu.  
+├── 📄 dashboard.py  
+│   → Interface utilisateur (Streamlit). La vitrine interactive du projet.  
+├── 📄 envoi_mail.py  
+│   → Automatise l’envoi des rapports PDF aux destinataires (équipe, clients).  
+├── 📄 json_to_pdf.py  
+│   → Convertit des données JSON en rapports PDF lisibles.  
+├── 🗂 logo_mapping.json  
+│   → Associe chaque entreprise à son logo pour enrichir les rapports visuellement.  
+├── 📄 multi_scraper.py  
+│   → Lance plusieurs scrapers en parallèle pour gagner du temps.  
+├── 📄 nettoyage_base.py  
+│   → Nettoie la base de données consolidée.  
+├── 📄 nlp_tfidf_visualisation.py  
+│   → Génère des visualisations des scores TF-IDF (importance des mots).  
+├── 📝 pipeline.log  
+│   → Journal d’exécution complet du pipeline.  
+├── 📄 runall.py  
+│   → Script chef d’orchestre qui lance tout le pipeline (scraping → analyse → rapport).  
+├── 📝 scraper.log  
+│   → Journal dédié uniquement au scraping.  
+├── 📄 style.css  
+│   → Feuille de style qui personnalise l’apparence du Dashboard.  
+├── 📄 sites.csv  
+│   → Liste des sites web à analyser (point de départ du scraping).  
+│  
+├── 📄 resultats_clean.json  
+│   → Résultats après nettoyage.  
+├── 📄 resultats_final.json  
+│   → Résultats finaux consolidés et prêts pour les rapports.  
+├── 📄 resultats.json  
+│   → Résultats bruts directement issus du scraping.  
+│  
+├── 📄 rapport_entreprises.pdf  
+│   → Rapport PDF focalisé sur les entreprises.  
+├── 📄 rapport_final.pdf  
+│   → Rapport PDF global (entreprises + freelances).  
+├── 🖼 rapport_freelance_*.png  
+│   → Graphiques dédiés aux freelances.  
+└── 📄 rapport_sites.pdf  
+    → Rapport PDF par site scrappé.  
+
+---
+
+## ✨ Fonctionnalités principales
+
+Le projet offre une gamme complète de fonctionnalités pour automatiser la veille concurrentielle et produire des résultats exploitables :
+
+### 1. **Scraping multi-site**
+- **Description** : Collecte des données à partir de plusieurs sites web en parallèle, en combinant des approches dynamiques (JavaScript) et statiques (HTML brut).
+- **Impact** : Réduit le temps de collecte des données et garantit une couverture maximale des sources.
+
+### 2. **Nettoyage et structuration des données**
+- **Description** : Supprime les éléments inutiles (URLs, images, etc.), détecte la langue des contenus et structure les données en catégories exploitables (services, technologies, clients).
+- **Impact** : Prépare les données pour une analyse approfondie et garantit leur qualité.
+
+### 3. **Analyse NLP avancée**
+- **Description** : Applique des techniques de lemmatisation, tokenisation et TF-IDF pour extraire les mots-clés les plus pertinents. Génère également des statistiques globales sur les cooccurrences et les tendances.
+- **Impact** : Identifie les termes et expressions clés pour mieux comprendre les tendances du marché.
+
+### 4. **Visualisations interactives et statiques**
+- **Description** : Génère des graphiques (histogrammes, nuages de mots, heatmaps) et des réseaux interactifs pour explorer les données.
+- **Impact** : Facilite l'interprétation des résultats et leur présentation aux parties prenantes.
+
+### 5. **Génération de rapports PDF**
+- **Description** : Produit des rapports PDF professionnels avec des sections détaillées pour chaque entreprise, incluant des introductions générées automatiquement.
+- **Impact** : Fournit un livrable clé pour les clients ou les décideurs.
+
+### 6. **Dashboard interactif**
+- **Description** : Interface utilisateur intuitive pour explorer les résultats, filtrer les données et télécharger les rapports.
+- **Impact** : Rend les résultats accessibles et exploitables par tous les membres de l'équipe.
+
+### 7. **Automatisation de l'envoi des rapports**
+- **Description** : Envoie automatiquement les rapports par email aux parties prenantes, avec des pièces jointes et un contenu personnalisé.
+- **Impact** : Réduit les tâches manuelles et garantit une communication régulière.
+
+---
+
+## 🛠️ Technologies utilisées
+
+Le projet repose sur un ensemble de technologies modernes et performantes, soigneusement sélectionnées pour répondre aux besoins spécifiques de chaque étape du pipeline :
+
+### 1. **Python**
+- **Pourquoi ?** : Langage polyvalent et riche en bibliothèques pour le scraping, l'analyse NLP et la visualisation.
+- **Impact** : Permet une intégration fluide de toutes les étapes du pipeline.
+
+### 2. **Selenium & BeautifulSoup**
+- **Pourquoi ?** : Selenium pour le scraping dynamique (JavaScript) et BeautifulSoup pour le scraping statique (HTML brut).
+- **Impact** : Garantit une collecte de données robuste et flexible.
+
+### 3. **Spacy**
+- **Pourquoi ?** : Pour la tokenisation, la lemmatisation et la détection de langue.
+- **Impact** : Fournit une base solide pour les analyses NLP.
+
+### 4. **Scikit-learn**
+- **Pourquoi ?** : Pour le calcul des scores TF-IDF et l'extraction des mots-clés.
+- **Impact** : Identifie les termes les plus pertinents dans les données textuelles.
+
+### 5. **Matplotlib, Seaborn & Plotly**
+- **Pourquoi ?** : Pour créer des visualisations statiques et interactives.
+- **Impact** : Facilite l'exploration et la présentation des résultats.
+
+### 6. **FPDF**
+- **Pourquoi ?** : Pour générer des rapports PDF professionnels.
+- **Impact** : Produit des livrables clairs et bien structurés.
+
+### 7. **Streamlit**
+- **Pourquoi ?** : Pour développer le Dashboard interactif.
+- **Impact** : Offre une interface utilisateur intuitive et moderne.
+
+### 8. **Llama.cpp**
+- **Pourquoi ?** : Pour utiliser un modèle NLP local (Mistral) pour les analyses avancées.
+- **Impact** : Permet des analyses sémantiques précises sans dépendre d'une API externe.
+
+---
+
+## 📖 Manuel d'utilisation
+
+### Prérequis :
+1. **Python 3.8+** : Assurez-vous que Python est installé sur votre machine.
+2. **Navigateurs et drivers** :
+   - Installez **Google Chrome** ou **Microsoft Edge**.
+   - Téléchargez les drivers correspondants (ex. `chromedriver.exe`).
+
+### Installation des dépendances :
+1. Clonez le projet :
+
+   git clone https://github.com/IkramKhemiri/Veille-concurrentielle-automatis-e-avec-IA.git
+
+2. Créez un environnement virtuel :
+
+python -m venv .venv
+source .venv/bin/activate  # Sur Windows : .venv\Scripts\activate
+
+3. Installez les dépendances :
+
+pip install -r requirements.txt
+
+4. Téléchargez les modèles NLP nécessaires :
+
+python -m spacy download fr_core_news_md
+python -m spacy download en_core_web_md
+
+5. Exécution du pipeline complet :
+python runall.py
+
+5. 1. Lancez le script principal :
+
+python runall.py
+
+5. 2. Accédez au Dashboard :
+
+streamlit run dashboard.py
+
+5. 3. Explorez les résultats et téléchargez les rapports.
+
+
