@@ -3,6 +3,32 @@
 GENERATEUR DE RAPPORT ENTREPRISES - VERSION FINALE
 """
 
+"""
+Rôle global :
+Ce module est conçu pour générer un rapport PDF professionnel à partir des données JSON extraites et analysées. 
+Il compile les informations des entreprises, telles que leurs services, technologies, secteurs clients, et les présente 
+dans un format structuré et visuellement attrayant. Le rapport inclut également des logos d'entreprises, une page de couverture, 
+et une introduction détaillée.
+
+Pourquoi il est important :
+Dans le pipeline global (scraping → analyse → visualisation → rapport), ce module est essentiel car il transforme les données 
+brutes et analysées en un livrable final exploitable. Le rapport PDF est souvent la sortie attendue par les clients ou les décideurs, 
+car il présente les résultats de manière claire, structurée et professionnelle.
+
+Comment il aide dans le pipeline :
+- **Scraping** : Compile les données extraites pour les rendre lisibles et présentables.
+- **Analyse** : Met en avant les résultats des analyses linguistiques et thématiques.
+- **Visualisation** : Organise les informations sous forme de sections claires et hiérarchisées.
+- **Rapport** : Produit un document final qui peut être partagé ou archivé.
+
+Technologies utilisées :
+- **FPDF** : Pour générer des fichiers PDF avec des mises en page personnalisées.
+- **JSON** : Pour charger les données structurées des entreprises.
+- **OS** : Pour vérifier l'existence des fichiers et gérer les chemins.
+- **Pathlib** : Pour manipuler les chemins de fichiers de manière portable.
+- **Datetime** : Pour inclure des informations temporelles dans le rapport.
+"""
+
 import json
 from fpdf import FPDF
 from datetime import datetime
@@ -11,6 +37,13 @@ import os
 from pathlib import Path
 
 # ===================== CONFIGURATION =====================
+"""
+Rôle :
+Définit les chemins des fichiers d'entrée et de sortie, ainsi que les paramètres de style du rapport.
+
+Importance :
+Cette section centralise les configurations, facilitant leur modification et garantissant la cohérence du rapport.
+"""
 INPUT_JSON = "resultats_clean.json"
 LOGO_MAPPING = "logo_mapping.json"
 OUTPUT_PDF = "rapport_final.pdf"
@@ -28,7 +61,24 @@ LOGO_MAX_SIZE = (40, 40)  # Taille des logos d'entreprises
 COVER_LOGO_SIZE = 80  # Taille du logo principal sur la couverture
 
 class ProfessionalPDF(FPDF):
+    """
+    Classe personnalisée pour gérer la création du rapport PDF.
+
+    Rôle :
+    Étend la classe FPDF pour inclure des fonctionnalités spécifiques au rapport, telles que la gestion des logos, 
+    la mise en page des sections, et la création de pages de couverture et d'introduction.
+
+    Importance :
+    Cette classe encapsule toute la logique de génération du PDF, garantissant une structure claire et une personnalisation facile.
+    """
+
     def __init__(self):
+        """
+        Initialise le document PDF avec les paramètres de style et charge la configuration des logos.
+
+        Importance :
+        Configure les paramètres de base du document, comme les marges, l'auteur, et les logos des entreprises.
+        """
         super().__init__(orientation="P", unit="mm", format="A4")
         self.set_auto_page_break(auto=True, margin=25)
         self.logo_mapping = self.load_logo_mapping()
@@ -38,7 +88,15 @@ class ProfessionalPDF(FPDF):
         self.alias_nb_pages()
 
     def load_logo_mapping(self):
-        """Charge la configuration des logos"""
+        """
+        Charge la configuration des logos des entreprises à partir d'un fichier JSON.
+
+        Importance :
+        Permet d'associer chaque entreprise à son logo, améliorant ainsi la présentation visuelle du rapport.
+
+        Retour :
+        Un dictionnaire contenant les associations entre les noms des entreprises et les chemins des logos.
+        """
         try:
             with open(LOGO_MAPPING, 'r', encoding='utf-8') as f:
                 mapping = json.load(f)
@@ -61,7 +119,18 @@ class ProfessionalPDF(FPDF):
             return {}
 
     def get_company_logo(self, company_name):
-        """Trouve le logo approprié pour une entreprise"""
+        """
+        Trouve le logo approprié pour une entreprise.
+
+        Importance :
+        Garantit que chaque entreprise est représentée par son logo, ou par un logo par défaut si aucun logo spécifique n'est disponible.
+
+        Arguments :
+        - `company_name` : Le nom de l'entreprise.
+
+        Retour :
+        Le chemin du logo correspondant ou du logo par défaut.
+        """
         if not company_name or not isinstance(company_name, str):
             return None
             
@@ -85,7 +154,20 @@ class ProfessionalPDF(FPDF):
         return None
 
     def safe_image(self, path, x=None, y=None, w=0, h=0):
-        """Tente de charger une image avec gestion des erreurs"""
+        """
+        Tente de charger une image avec gestion des erreurs.
+
+        Importance :
+        Évite les interruptions en cas de problème avec un fichier image.
+
+        Arguments :
+        - `path` : Chemin de l'image.
+        - `x`, `y` : Position de l'image.
+        - `w`, `h` : Dimensions de l'image.
+
+        Retour :
+        `True` si l'image est chargée avec succès, sinon `False`.
+        """
         try:
             if x is not None and y is not None:
                 self.image(path, x=x, y=y, w=w, h=h)
@@ -97,51 +179,53 @@ class ProfessionalPDF(FPDF):
             return False
 
     def clean_text_for_pdf(self, text):
-        """Nettoie le texte pour éviter les problèmes d'encodage"""
+        """
+        Nettoie le texte pour éviter les problèmes d'encodage.
+
+        Importance :
+        Garantit que le texte s'affiche correctement dans le PDF, même avec des caractères spéciaux.
+
+        Arguments :
+        - `text` : Le texte à nettoyer.
+
+        Retour :
+        Une chaîne de caractères nettoyée.
+        """
         if not isinstance(text, str):
             text = str(text)
         
-        # Remplace les caractères spéciaux problématiques
         replacements = {
-            '•': '-',       # Remplace les puces
-            '“': '"',       # Guillemets doubles
-            '”': '"',
-            '‘': "'",      # Guillemets simples
-            '’': "'",
-            '–': '-',      # Tirets
-            '—': '--',
-            'é': 'e',      # Accents
-            'è': 'e',
-            'ê': 'e',
-            'à': 'a',
-            'ù': 'u',
-            'ç': 'c',
-            'î': 'i',
-            'ï': 'i',
-            'ô': 'o',
-            'û': 'u'
+            '•': '-', '“': '"', '”': '"', '‘': "'", '’': "'", '–': '-', '—': '--',
+            'é': 'e', 'è': 'e', 'ê': 'e', 'à': 'a', 'ù': 'u', 'ç': 'c', 'î': 'i', 'ï': 'i', 'ô': 'o', 'û': 'u'
         }
         
         for orig, repl in replacements.items():
             text = text.replace(orig, repl)
         
-        # Supprime les autres caractères non-ASCII
         text = text.encode('latin-1', errors='replace').decode('latin-1')
         return text
 
     def header(self):
-        """En-tête de page - Maintenant simplifié avec juste le titre du rapport"""
+        """
+        Ajoute un en-tête à chaque page.
+
+        Importance :
+        Fournit un titre constant pour le rapport, améliorant sa lisibilité et sa structure.
+        """
         self.set_font(self.default_font, 'B', 14)
         self.set_text_color(*PRIMARY_COLOR)
         self.cell(0, 10, REPORT_TITLE, ln=1)
-        
-        # Ligne de séparation
         self.set_draw_color(*SECONDARY_COLOR)
         self.line(10, self.get_y(), 200, self.get_y())
         self.ln(5)
 
     def footer(self):
-        """Pied de page"""
+        """
+        Ajoute un pied de page à chaque page.
+
+        Importance :
+        Fournit des informations contextuelles comme le numéro de page et la date, améliorant la navigation dans le document.
+        """
         self.set_y(-15)
         self.set_font(self.default_font, 'I', 8)
         self.set_text_color(150, 150, 150)
@@ -149,48 +233,51 @@ class ProfessionalPDF(FPDF):
         self.cell(0, 10, self.clean_text_for_pdf(f"{page_num} • {REPORT_AUTHOR} • {datetime.now().strftime('%d/%m/%Y')}"), 0, 0, 'C')
 
     def create_cover_page(self):
-        """Page de couverture améliorée"""
+        """
+        Crée une page de couverture pour le rapport.
+
+        Importance :
+        Donne une première impression professionnelle et attrayante au rapport.
+        """
         self.add_page()
         self.set_fill_color(*COVER_BG_COLOR)
         self.rect(0, 0, 210, 297, 'F')
 
-        # Titre principal
         self.set_y(130)
         self.set_font(self.default_font, 'B', 28)
         self.set_text_color(*PRIMARY_COLOR)
         self.cell(0, 20, REPORT_TITLE, ln=1, align='C')
 
-        # Sous-titre
         self.set_font(self.default_font, '', 18)
         self.set_text_color(100, 100, 100)
         self.cell(0, 10, "Analyse sectorielle complète", ln=1, align='C')
         
-
-        # Logo principal centré et plus grand
         if os.path.exists(REPORT_LOGO):
             self.image(REPORT_LOGO, x=(210-COVER_LOGO_SIZE)/2, y=40, w=COVER_LOGO_SIZE)
         else:
             print(f"[WARNING] Logo principal introuvable: {REPORT_LOGO}")
         
-        # Informations complémentaires
         self.set_y(200)
         self.set_font(self.default_font, 'I', 14)
         self.set_text_color(120, 120, 120)
         self.cell(0, 10, datetime.now().strftime("%B %Y"), ln=1, align='C')
         
-        # Auteur
         self.set_font(self.default_font, 'B', 16)
         self.set_text_color(*PRIMARY_COLOR)
         self.cell(0, 10, REPORT_AUTHOR, ln=1, align='C')
         
-        # Note de bas de page
         self.set_y(-30)
         self.set_font(self.default_font, 'I', 10)
         self.set_text_color(150, 150, 150)
         self.cell(0, 10, "Document généré automatiquement - Données confidentielles", 0, 0, 'C')
 
     def create_introduction(self):
-        """Page d'introduction enrichie"""
+        """
+        Crée une page d'introduction pour le rapport.
+
+        Importance :
+        Explique le contenu et l'objectif du rapport, offrant un contexte aux lecteurs.
+        """
         self.add_page()
         self.set_font(self.default_font, 'B', 18)
         self.set_text_color(*PRIMARY_COLOR)
@@ -198,7 +285,6 @@ class ProfessionalPDF(FPDF):
         self.line(10, self.get_y(), 50, self.get_y())
         self.ln(15)
         
-        # Introduction détaillée
         intro_text = """
 Ce rapport exhaustif présente une analyse approfondie des entreprises sélectionnées dans notre base de données. 
 Réalisé par NaviTrends Analytics, ce document offre une vision complète du paysage sectoriel avec :
@@ -246,11 +332,18 @@ Les logos des entreprises sont affichés lorsqu'ils sont disponibles. Les inform
         self.multi_cell(0, 6, self.clean_text_for_pdf(usage_text))
 
     def add_company_section(self, company_data):
-        """Ajoute une section entreprise avec logo sous le nom"""
+        """
+        Ajoute une section détaillée pour une entreprise.
+
+        Importance :
+        Fournit une vue complète des informations clés de chaque entreprise, y compris son logo, ses services, et ses technologies.
+
+        Arguments :
+        - `company_data` : Un dictionnaire contenant les informations de l'entreprise.
+        """
         if not company_data or not company_data.get('name'):
             return
             
-        self.current_company = company_data
         self.add_page()
         
         # Nom de l'entreprise (sans logo dans l'en-tête)
@@ -290,7 +383,17 @@ Les logos des entreprises sont affichés lorsqu'ils sont disponibles. Les inform
         self.add_section("Description Complète", company_data.get('full_content'), is_list=False)
 
     def add_section(self, title, content, is_list=True):
-        """Ajoute une section avec contenu"""
+        """
+        Ajoute une section avec un titre et un contenu.
+
+        Importance :
+        Structure les informations de manière claire et lisible.
+
+        Arguments :
+        - `title` : Le titre de la section.
+        - `content` : Le contenu de la section.
+        - `is_list` : Indique si le contenu est une liste ou un texte brut.
+        """
         if not content:
             return
             
@@ -318,8 +421,18 @@ Les logos des entreprises sont affichés lorsqu'ils sont disponibles. Les inform
         self.ln(12)
 
 def generate_pdf_report():
-    """Génère le rapport PDF complet"""
-    # Vérification des fichiers
+    """
+    Génère le rapport PDF complet.
+
+    Importance :
+    Produit le livrable final du pipeline, un rapport PDF structuré et professionnel.
+
+    Étapes :
+    1. Vérifie l'existence des fichiers nécessaires.
+    2. Charge les données JSON des entreprises.
+    3. Crée les pages de couverture, d'introduction, et les fiches entreprises.
+    4. Sauvegarde le rapport dans un fichier PDF.
+    """
     required_files = {
         INPUT_JSON: "Fichier de données JSON",
         LOGO_MAPPING: "Configuration des logos"
@@ -330,10 +443,9 @@ def generate_pdf_report():
             print(f"[ERREUR] {desc} introuvable: {file}")
             return
     
-    # Chargement des données
     try:
         with open(INPUT_JSON, 'r', encoding='utf-8') as f:
-            companies = [c for c in json.load(f) if c and c.get('name')]  # Filtre les entreprises sans nom
+            companies = [c for c in json.load(f) if c and c.get('name')]
     except Exception as e:
         print(f"[ERREUR] Impossible de charger {INPUT_JSON}: {e}")
         return
@@ -342,22 +454,18 @@ def generate_pdf_report():
         print("[ERREUR] Aucune entreprise valide trouvée dans le fichier JSON")
         return
     
-    # Création du PDF
     print(f"Début de la génération du PDF pour {len(companies)} entreprises...")
     pdf = ProfessionalPDF()
     
     try:
-        # Pages initiales
         pdf.create_cover_page()
         pdf.create_introduction()
         
-        # Fiches entreprises
         for idx, company in enumerate(companies, 1):
             name = company.get('name', 'Sans nom')
             print(f"Traitement {idx}/{len(companies)}: {name[:50]}...")
             pdf.add_company_section(company)
         
-        # Sauvegarde finale
         pdf.output(OUTPUT_PDF)
         print(f"\nRapport généré avec succès: {OUTPUT_PDF}")
         print(f"Entreprises incluses: {len(companies)}")
