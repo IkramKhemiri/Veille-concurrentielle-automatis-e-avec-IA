@@ -1,4 +1,26 @@
-#scraping/scraper_dynamic.py
+"""
+Rôle global :
+Ce module est conçu pour scraper des sites web dynamiques, c'est-à-dire des sites dont le contenu est généré ou modifié par JavaScript. 
+Il utilise Selenium pour simuler un navigateur, interagir avec les pages, et extraire les données pertinentes. 
+Il gère également des scénarios complexes comme la pagination, le défilement infini et les interactions avec des boutons.
+
+Pourquoi il est important :
+Dans le pipeline global (scraping → analyse → visualisation → rapport), ce module est essentiel pour traiter les sites dynamiques 
+qui ne peuvent pas être scrappés avec des requêtes HTTP simples. Ces sites représentent une grande partie du web moderne, 
+et ce module permet de contourner les limitations techniques pour accéder aux données nécessaires.
+
+Comment il aide dans le pipeline :
+- **Scraping** : Il extrait le contenu HTML complet des sites dynamiques, y compris les données générées par JavaScript.
+- **Analyse** : Les données extraites sont nettoyées et organisées pour être analysées dans les étapes suivantes.
+- **Visualisation** : Les informations collectées peuvent être utilisées pour créer des graphiques ou des tableaux.
+- **Rapport** : Les données structurées sont prêtes à être intégrées dans des rapports professionnels.
+
+Technologies utilisées :
+- **Selenium** : Pour simuler un navigateur et interagir avec les sites dynamiques.
+- **BeautifulSoup** : Pour analyser et extraire les données textuelles des pages HTML.
+- **Expressions régulières (regex)** : Pour détecter et extraire des motifs spécifiques comme les emails et les numéros de téléphone.
+- **Logging** : Pour suivre les étapes du processus et gérer les erreurs de manière transparente.
+"""
 
 import time
 import logging
@@ -20,6 +42,26 @@ from scraping.scraper_static import scrape_static_site
 MAX_DYNAMIC_SECONDS = 120  # Limite max en secondes pour le scraping dynamique
 
 def open_with_retry(driver, url, retries=3, wait_sec=4):
+    """
+    Rôle :
+    Tente de charger une URL dans le navigateur avec plusieurs essais en cas d'échec.
+
+    Fonctionnalité :
+    - Charge l'URL dans le navigateur.
+    - Réessaie jusqu'à un nombre maximum de tentatives en cas d'erreur.
+
+    Importance :
+    Cette fonction garantit une meilleure résilience face aux erreurs réseau ou aux problèmes temporaires du site.
+
+    Arguments :
+    - `driver` : Instance du navigateur Selenium.
+    - `url` : L'URL à charger.
+    - `retries` : Nombre maximum de tentatives.
+    - `wait_sec` : Temps d'attente entre les tentatives.
+
+    Retour :
+    `True` si le chargement réussit, sinon une exception est levée.
+    """
     for attempt in range(retries):
         try:
             driver.get(url)
@@ -30,6 +72,22 @@ def open_with_retry(driver, url, retries=3, wait_sec=4):
     raise Exception(f"Impossible de charger {url} après {retries} tentatives")
 
 def scroll_to_bottom(driver, pause_time=2, max_scrolls=6):
+    """
+    Rôle :
+    Simule un défilement vers le bas de la page pour charger dynamiquement le contenu.
+
+    Fonctionnalité :
+    - Défile progressivement jusqu'à la fin de la page.
+    - Arrête le défilement si la hauteur de la page ne change plus.
+
+    Importance :
+    Cette fonction est essentielle pour charger les contenus dynamiques qui apparaissent uniquement après un défilement.
+
+    Arguments :
+    - `driver` : Instance du navigateur Selenium.
+    - `pause_time` : Temps d'attente entre chaque défilement.
+    - `max_scrolls` : Nombre maximum de défilements.
+    """
     last_height = driver.execute_script("return document.body.scrollHeight")
     for _ in range(max_scrolls):
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -40,6 +98,25 @@ def scroll_to_bottom(driver, pause_time=2, max_scrolls=6):
         last_height = new_height
 
 def update_url_param(url, param_name, param_value):
+    """
+    Rôle :
+    Modifie un paramètre dans l'URL pour gérer la pagination via des paramètres.
+
+    Fonctionnalité :
+    - Analyse l'URL et met à jour le paramètre spécifié.
+    - Reconstruit l'URL avec le nouveau paramètre.
+
+    Importance :
+    Cette fonction est utile pour gérer la pagination basée sur des paramètres dans l'URL.
+
+    Arguments :
+    - `url` : L'URL à modifier.
+    - `param_name` : Nom du paramètre à mettre à jour.
+    - `param_value` : Nouvelle valeur du paramètre.
+
+    Retour :
+    Une URL mise à jour.
+    """
     parts = urlparse(url)
     query = parse_qs(parts.query)
     query[param_name] = [str(param_value)]
@@ -48,6 +125,25 @@ def update_url_param(url, param_name, param_value):
     return urlunparse(new_parts)
 
 def try_url_parameter_pagination(driver, base_url, start_time):
+    """
+    Rôle :
+    Gère la pagination en modifiant les paramètres de l'URL.
+
+    Fonctionnalité :
+    - Parcourt les pages en incrémentant les paramètres de l'URL.
+    - Extrait les données de chaque page.
+
+    Importance :
+    Cette méthode est utile pour scraper des sites qui utilisent des paramètres d'URL pour la pagination.
+
+    Arguments :
+    - `driver` : Instance du navigateur Selenium.
+    - `base_url` : URL de base pour la pagination.
+    - `start_time` : Heure de début pour limiter la durée du scraping.
+
+    Retour :
+    Une liste de données extraites des pages paginées.
+    """
     logging.info("🔁 Tentative pagination via paramètres URL")
     seen_pages = set()
     contents = []
@@ -89,6 +185,24 @@ def try_url_parameter_pagination(driver, base_url, start_time):
     return contents
 
 def click_next_pages(driver, start_time):
+    """
+    Rôle :
+    Gère la pagination en cliquant sur les boutons "Suivant" ou "Next".
+
+    Fonctionnalité :
+    - Clique sur le bouton de pagination pour charger la page suivante.
+    - Extrait les données de chaque page.
+
+    Importance :
+    Cette méthode est nécessaire pour les sites qui utilisent des boutons pour la pagination au lieu de paramètres d'URL.
+
+    Arguments :
+    - `driver` : Instance du navigateur Selenium.
+    - `start_time` : Heure de début pour limiter la durée du scraping.
+
+    Retour :
+    Une liste de données extraites des pages paginées.
+    """
     pages = []
     seen_hashes = set()
     while True:
@@ -121,6 +235,22 @@ def click_next_pages(driver, start_time):
     return pages
 
 def merge_results(results):
+    """
+    Rôle :
+    Fusionne les résultats extraits de plusieurs pages en un seul ensemble de données.
+
+    Fonctionnalité :
+    - Combine les données extraites en unifiant les listes et en conservant les valeurs uniques.
+
+    Importance :
+    Cette fonction est cruciale pour obtenir un ensemble de données complet et non dupliqué à partir de plusieurs pages.
+
+    Arguments :
+    - `results` : Liste des blocs de résultats extraits.
+
+    Retour :
+    Un dictionnaire contenant les données fusionnées.
+    """
     merged = {}
     for block in results:
         for key, val in block.items():
@@ -132,6 +262,21 @@ def merge_results(results):
     return merged
 
 def save_debug_files(url, html, driver):
+    """
+    Rôle :
+    Sauvegarde les fichiers de débogage pour analyser les problèmes éventuels.
+
+    Fonctionnalité :
+    - Enregistre le HTML brut et la capture d'écran de la page.
+
+    Importance :
+    Cette fonction aide à diagnostiquer les erreurs en fournissant des preuves tangibles de l'état de la page au moment du scraping.
+
+    Arguments :
+    - `url` : L'URL de la page.
+    - `html` : Le contenu HTML de la page.
+    - `driver` : Instance du navigateur Selenium.
+    """
     try:
         os.makedirs("debug", exist_ok=True)
         domain = urlparse(url).netloc.replace(".", "_")
@@ -148,6 +293,22 @@ def save_debug_files(url, html, driver):
         logging.warning(f"⚠️ Erreur sauvegarde debug : {e}")
 
 def scrape_dynamic_site(url: str) -> dict:
+    """
+    Rôle :
+    Point d'entrée principal pour le scraping des sites dynamiques.
+
+    Fonctionnalité :
+    - Gère le processus complet de scraping dynamique pour une URL donnée.
+
+    Importance :
+    Cette fonction orchestre l'ensemble du processus de scraping dynamique, y compris la gestion des erreurs et le fallback vers le scraping statique si nécessaire.
+
+    Arguments :
+    - `url` : L'URL du site à scraper.
+
+    Retour :
+    Un dictionnaire contenant le résultat du scraping, avec succès ou échec.
+    """
     logging.info(f"🔄 Scraping dynamique : {url}")
     start_time = time.time()
 
