@@ -15,6 +15,35 @@ Pipeline complet d'analyse d'entreprises :
 - Sauvegardes : JSON final, CSV récap, PNG/GIF/HTML dans /visualisations
 """
 
+"""
+Rôle global :
+Ce module constitue un pipeline complet pour l'analyse des entreprises en utilisant des techniques avancées de traitement 
+du langage naturel (NLP) et de visualisation. Il nettoie, lemmatise et analyse les données textuelles, applique la méthode 
+TF-IDF pour extraire les mots-clés les plus pertinents, et génère des visualisations interactives et statiques pour explorer 
+les résultats. Les sorties incluent des fichiers JSON, CSV, PNG, GIF et HTML.
+
+Pourquoi il est important :
+Dans le pipeline global (scraping → analyse → visualisation → rapport), ce module est essentiel pour transformer les données 
+textuelles brutes en insights exploitables. Il permet de comprendre les tendances, les mots-clés dominants et les relations 
+entre les termes, tout en produisant des visualisations claires et professionnelles. Ces résultats enrichissent les rapports 
+et facilitent la prise de décision.
+
+Comment il aide dans le pipeline :
+- **Scraping** : Nettoie et structure les données textuelles extraites.
+- **Analyse** : Applique des techniques NLP et TF-IDF pour extraire des informations clés.
+- **Visualisation** : Génère des graphiques, des nuages de mots et des réseaux interactifs pour explorer les données.
+- **Rapport** : Produit des fichiers JSON et CSV pour documenter les résultats et des visualisations pour enrichir les livrables.
+
+Technologies utilisées :
+- **Spacy** : Pour la tokenisation, la lemmatisation et la détection de langue.
+- **Scikit-learn (TfidfVectorizer)** : Pour calculer les scores TF-IDF.
+- **Matplotlib/Seaborn** : Pour créer des graphiques statiques (histogrammes, heatmaps, etc.).
+- **WordCloud** : Pour générer des nuages de mots statiques et animés.
+- **Plotly** : Pour des visualisations interactives (barres, TF-IDF).
+- **PyVis** : Pour créer des réseaux interactifs de mots-clés.
+- **Pandas** : Pour structurer et exporter les données en CSV.
+"""
+
 import json
 import string
 import os
@@ -54,6 +83,14 @@ except Exception:
 import spacy
 
 # ------------------------- Config -------------------------
+"""
+Rôle :
+Définit les paramètres globaux du pipeline, tels que les chemins des fichiers d'entrée et de sortie, 
+les configurations pour les visualisations et les modèles NLP.
+
+Importance :
+Centralise les configurations pour faciliter leur modification et garantir la cohérence des résultats.
+"""
 INPUT_JSON = "resultats_clean.json"
 OUTPUT_JSON = "resultats_final.json"
 VISUAL_DIR = "visualisations"
@@ -66,6 +103,15 @@ TOP_FOR_COOCC = 30  # nombres de termes pris pour cooccurrences
 os.makedirs(VISUAL_DIR, exist_ok=True)
 
 # ------------------------- NLP Models -------------------------
+"""
+Rôle :
+Charge les modèles NLP pour le français et l'anglais, en utilisant des modèles "md" (moyens) ou "sm" (petits) 
+en cas de fallback.
+
+Importance :
+Ces modèles sont essentiels pour la tokenisation, la lemmatisation et la détection de langue, 
+qui sont des étapes clés du pipeline.
+"""
 def _load_spacy_model(name_md: str, name_sm: str):
     try:
         return spacy.load(name_md)
@@ -89,6 +135,14 @@ STOPWORDS = set(list(spacy.lang.en.stop_words.STOP_WORDS) +
 PUNCTUATION = set(string.punctuation)
 
 # ------------------------- Utilitaires -------------------------
+"""
+Rôle :
+Fournit des fonctions utilitaires pour la détection de langue, le nettoyage et la lemmatisation des textes, 
+ainsi que pour la sauvegarde des visualisations.
+
+Importance :
+Ces fonctions garantissent que les données textuelles sont correctement préparées pour l'analyse et la visualisation.
+"""
 def detect_lang(text: str) -> str:
     """Détection basique de langue FR/EN (comptage de non-stop)."""
     if not text or not isinstance(text, str):
@@ -117,6 +171,7 @@ def preprocess_text(text: str) -> str:
     return " ".join(tokens)
 
 def safe_savefig(path: str, tight: bool = True):
+    """Sauvegarde sécurisée des visualisations en PNG."""
     Path(os.path.dirname(path)).mkdir(parents=True, exist_ok=True)
     if tight:
         plt.tight_layout()
@@ -130,6 +185,13 @@ def ensure_non_empty_counter(counter_obj: Counter) -> Counter:
     return Counter({"aucun": 1})
 
 # ------------------------- TF-IDF / N-grams -------------------------
+"""
+Rôle :
+Applique la méthode TF-IDF pour extraire les mots-clés les plus pertinents et génère des n-grams (bigrams, trigrams).
+
+Importance :
+Ces techniques permettent d'identifier les termes et expressions les plus significatifs dans les données textuelles.
+"""
 def extract_tfidf(docs, top_n=TOP_N_KEYWORDS, ngram_range=NGRAM_RANGE):
     vectorizer = TfidfVectorizer(
         ngram_range=ngram_range,
@@ -144,11 +206,19 @@ def extract_tfidf(docs, top_n=TOP_N_KEYWORDS, ngram_range=NGRAM_RANGE):
     return ranked[:top_n], ranked  # (top_n, all ranked)
 
 def get_ngrams(tokens, n=2):
+    """Génère des n-grams à partir d'une liste de tokens."""
     if len(tokens) < n:
         return []
     return [" ".join(tokens[i:i+n]) for i in range(len(tokens)-n+1)]
 
 # ------------------------- Cooccurrences -------------------------
+"""
+Rôle :
+Calcule une matrice de cooccurrence pour analyser les relations entre les termes dans une fenêtre donnée.
+
+Importance :
+Permet de visualiser les connexions entre les mots-clés dans les données textuelles.
+"""
 def cooccurrence_matrix(tokens_list, terms, window_size=2):
     """Matrix de cooccurrence pour 'terms' sur tous les documents de tokens_list."""
     idx = {t: i for i, t in enumerate(terms)}
@@ -169,6 +239,13 @@ def cooccurrence_matrix(tokens_list, terms, window_size=2):
     return mat, idx
 
 # ------------------------- Visualisations de base -------------------------
+"""
+Rôle :
+Génère des visualisations statiques (histogrammes, nuages de mots, heatmaps) pour explorer les données.
+
+Importance :
+Ces visualisations permettent d'analyser rapidement la distribution des termes et les relations de cooccurrence.
+"""
 def plot_histogram(counter_obj: Counter, title, xlabel, ylabel, filename, horizontal=True, max_bars=MAX_BARS):
     counter_obj = ensure_non_empty_counter(counter_obj)
     items = counter_obj.most_common(max_bars)
@@ -499,6 +576,13 @@ def save_pandas_tables(results, synthese):
     )
 
 # ------------------------- Pipeline principal -------------------------
+"""
+Rôle :
+Orchestre l'ensemble du pipeline, depuis le nettoyage des données jusqu'à la génération des visualisations et des fichiers de sortie.
+
+Importance :
+Cette fonction garantit que toutes les étapes du pipeline sont exécutées dans le bon ordre, produisant des résultats complets et exploitables.
+"""
 def main():
     if not Path(INPUT_JSON).exists():
         print(f"❌ Fichier introuvable : {INPUT_JSON}")
