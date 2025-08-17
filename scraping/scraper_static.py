@@ -1,4 +1,25 @@
-# scraping/scraper_static.py
+"""
+Rôle global :
+Ce module est conçu pour scraper des sites web statiques, c'est-à-dire des sites dont le contenu est directement accessible via des requêtes HTTP. 
+Il extrait les données pertinentes à partir du HTML brut et gère également la pagination pour collecter des informations sur plusieurs pages.
+
+Pourquoi il est important :
+Dans le pipeline global (scraping → analyse → visualisation → rapport), ce module est essentiel pour traiter les sites statiques, 
+qui représentent une part importante du web. Il permet de collecter rapidement et efficacement des données exploitables sans nécessiter 
+de rendu JavaScript.
+
+Comment il aide dans le pipeline :
+- **Scraping** : Il extrait le contenu HTML brut des sites statiques.
+- **Analyse** : Les données extraites sont nettoyées et organisées pour être analysées dans les étapes suivantes.
+- **Visualisation** : Les informations collectées peuvent être utilisées pour créer des graphiques ou des tableaux.
+- **Rapport** : Les données structurées sont prêtes à être intégrées dans des rapports professionnels.
+
+Technologies utilisées :
+- **Requests** : Pour envoyer des requêtes HTTP et récupérer le contenu HTML des pages.
+- **BeautifulSoup** : Pour analyser et extraire les données textuelles des pages HTML.
+- **Expressions régulières (regex)** : Pour détecter et extraire des motifs spécifiques comme les emails et les numéros de téléphone.
+- **Logging** : Pour suivre les étapes du processus et gérer les erreurs de manière transparente.
+"""
 
 import logging
 import requests
@@ -7,6 +28,26 @@ from scraping.cleaner import clean_extracted_data
 from urllib.parse import urlparse, urlunparse, parse_qs, urlencode
 
 def get_static_html(url, timeout=10):
+    """
+    Rôle :
+    Récupère le contenu HTML brut d'un site web statique via une requête HTTP.
+
+    Fonctionnalité :
+    - Envoie une requête HTTP GET à l'URL spécifiée.
+    - Retourne le contenu HTML si la requête est réussie.
+    - Gère les erreurs et les statuts HTTP non 200.
+
+    Importance :
+    Cette fonction est idéale pour scraper des sites statiques qui ne nécessitent pas de rendu JavaScript. 
+    Elle est rapide et consomme moins de ressources qu'un navigateur automatisé.
+
+    Arguments :
+    - `url` : L'URL du site à scraper.
+    - `timeout` : Temps maximum (en secondes) pour la requête.
+
+    Retour :
+    Une chaîne de caractères contenant le HTML brut ou une chaîne vide en cas d'erreur.
+    """
     headers = {"User-Agent": "Mozilla/5.0"}
     try:
         response = requests.get(url, headers=headers, timeout=timeout)
@@ -20,6 +61,23 @@ def get_static_html(url, timeout=10):
         return ""
 
 def is_empty(data):
+    """
+    Rôle :
+    Vérifie si les données extraites sont vides ou non pertinentes.
+
+    Fonctionnalité :
+    - Parcourt les sections clés des données extraites (services, clients, blog, etc.).
+    - Retourne `True` si toutes les sections sont vides ou non significatives.
+
+    Importance :
+    Cette fonction permet de détecter rapidement si le scraping a échoué ou si les données extraites sont inutilisables.
+
+    Arguments :
+    - `data` : Un dictionnaire contenant les données extraites.
+
+    Retour :
+    `True` si les données sont vides, sinon `False`.
+    """
     if not data or not isinstance(data, dict):
         return True
     for key in ["services", "clients", "blog", "jobs", "summary"]:
@@ -31,6 +89,22 @@ def is_empty(data):
     return True
 
 def merge_results(results):
+    """
+    Rôle :
+    Fusionne les résultats extraits de plusieurs pages en un seul ensemble de données.
+
+    Fonctionnalité :
+    - Combine les données extraites en unifiant les listes et en conservant les valeurs uniques.
+
+    Importance :
+    Cette fonction est cruciale pour obtenir un ensemble de données complet et non dupliqué à partir de plusieurs pages.
+
+    Arguments :
+    - `results` : Liste des blocs de résultats extraits.
+
+    Retour :
+    Un dictionnaire contenant les données fusionnées.
+    """
     merged = {}
     for block in results:
         for key, val in block.items():
@@ -50,6 +124,23 @@ def update_url_param(url, param_name, param_value):
     return urlunparse(new_parts)
 
 def try_paginate(url):
+    """
+    Rôle :
+    Gère la pagination pour collecter des données sur plusieurs pages d'un site statique.
+
+    Fonctionnalité :
+    - Modifie les paramètres de l'URL pour accéder aux pages suivantes.
+    - Extrait les données de chaque page et les fusionne.
+
+    Importance :
+    Cette méthode est essentielle pour scraper des sites statiques avec plusieurs pages de contenu.
+
+    Arguments :
+    - `url` : L'URL de base pour la pagination.
+
+    Retour :
+    Un dictionnaire contenant les données fusionnées de toutes les pages.
+    """
     logging.info("🔁 Pagination intelligente activée...")
     results = []
     seen_urls = set()
@@ -95,6 +186,24 @@ def try_paginate(url):
     return merge_results(results)
 
 def scrape_static_site(url: str) -> dict:
+    """
+    Rôle :
+    Point d'entrée principal pour le scraping des sites statiques.
+
+    Fonctionnalité :
+    - Récupère le contenu HTML brut d'une page.
+    - Extrait les données pertinentes et gère la pagination si nécessaire.
+    - Nettoie et structure les données extraites.
+
+    Importance :
+    Cette fonction orchestre l'ensemble du processus de scraping statique, garantissant que les données collectées sont exploitables.
+
+    Arguments :
+    - `url` : L'URL du site à scraper.
+
+    Retour :
+    Un dictionnaire contenant les données extraites ou un message d'erreur en cas d'échec.
+    """
     logging.info(f"🌐 Scraping statique pour : {url}")
 
     try:
