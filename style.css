@@ -1,63 +1,107 @@
+/*
+Rôle global :
+Ce fichier CSS personnalise l'apparence de l'application Streamlit utilisée dans le projet. 
+Il définit les styles pour les typographies, les en-têtes, les cartes KPI, les sections de fichiers, 
+les onglets et les éléments interactifs, tout en garantissant une expérience utilisateur moderne et professionnelle.
+
+Pourquoi il est important :
+Dans le pipeline global (scraping → analyse → visualisation → rapport), ce fichier joue un rôle clé en améliorant 
+l'esthétique et la lisibilité de l'application. Une interface bien conçue rend les résultats plus accessibles et 
+facilite leur interprétation par les utilisateurs finaux, qu'ils soient membres de l'équipe ou clients.
+
+Comment il aide dans le pipeline :
+- **Scraping** : N'a pas d'impact direct, mais améliore la présentation des résultats extraits.
+- **Analyse** : Met en valeur les indicateurs clés et les visualisations générées.
+- **Visualisation** : Offre une mise en page claire et attrayante pour les graphiques et les tableaux.
+- **Rapport** : Facilite la navigation dans l'application et améliore l'expérience utilisateur.
+
+Technologies utilisées :
+- **Google Fonts** : Pour importer des typographies modernes et professionnelles.
+- **CSS** : Pour définir les styles, les animations et les mises en page.
+- **Media Queries** : Pour garantir une expérience responsive sur différents appareils.
+*/
+
 /* Typographies (disponibles) */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Roboto:wght@300;400;500&family=Inter:wght@300;400;600&family=Poppins:wght@300;400;600&display=swap');
 
 html, body, [class*="css"] {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif; /* Police principale pour le texte */
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', sans-serif;
-    color: #2c3e50;
+    font-family: 'Montserrat', sans-serif; /* Police pour les titres */
+    color: #2c3e50; /* Couleur principale des titres */
 }
 
 /* En-tête */
 .header {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); /* Dégradé clair pour un effet moderne */
     padding: 2rem;
-    border-radius: 15px;
+    border-radius: 15px; /* Coins arrondis pour un design fluide */
     margin-bottom: 2rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    border-left: 5px solid #6a11cb;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Ombre légère pour un effet de profondeur */
+    border-left: 5px solid #6a11cb; /* Accent coloré pour démarquer l'en-tête */
 }
 
 .subheader {
-    color: #7f8c8d;
+    color: #7f8c8d; /* Couleur secondaire pour le sous-titre */
     font-size: 1.05rem;
     margin-top: -0.4rem;
-    font-weight: 300;
+    font-weight: 300; /* Texte léger pour ne pas surcharger visuellement */
 }
 
 /* Cartes KPI & Info */
 .kpi-card {
-    background: white;
+    background: white; /* Fond blanc pour un contraste clair */
     border-radius: 12px;
     padding: 1.2rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-    border-top: 4px solid #6a11cb;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Ombre pour un effet de carte flottante */
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1); /* Animation fluide au survol */
+    border-top: 4px solid #6a11cb; /* Accent coloré pour identifier les KPI */
     margin-bottom: 1rem;
     height: auto;
-    border: 1px solid rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.04); /* Bordure légère pour délimiter la carte */
 }
 
 .kpi-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    transform: translateY(-4px); /* Légère élévation au survol */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12); /* Ombre plus marquée pour l'interaction */
 }
 
-.kpi-header { display: flex; align-items: center; margin-bottom: 0.6rem; }
-.kpi-icon { font-size: 1.8rem; margin-right: 0.7rem; color: #6a11cb; }
-.kpi-title { font-weight: 600; color: #34495e; font-size: 1.05rem; }
-.kpi-value { font-size: 2.2rem; font-weight: 700; color: #2c3e50; line-height: 1; }
-.kpi-desc { font-size: 0.9rem; color: #7f8c8d; font-weight: 400; }
+.kpi-header { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 0.6rem; 
+}
+.kpi-icon { 
+    font-size: 1.8rem; 
+    margin-right: 0.7rem; 
+    color: #6a11cb; /* Couleur principale pour les icônes */
+}
+.kpi-title { 
+    font-weight: 600; 
+    color: #34495e; 
+    font-size: 1.05rem; 
+}
+.kpi-value { 
+    font-size: 2.2rem; 
+    font-weight: 700; 
+    color: #2c3e50; 
+    line-height: 1; 
+}
+.kpi-desc { 
+    font-size: 0.9rem; 
+    color: #7f8c8d; 
+    font-weight: 400; 
+}
 
 .kpi-explanation, .viz-explanation {
-    background: #f8f9fa;
+    background: #f8f9fa; /* Fond clair pour les explications */
     padding: 0.9rem;
     border-radius: 8px;
     margin: 0.6rem 0 1rem;
     font-size: 0.95rem;
-    border-left: 3px solid #3498db;
+    border-left: 3px solid #3498db; /* Accent bleu pour attirer l'attention */
 }
 
 /* Section Fichiers */
@@ -65,44 +109,60 @@ h1, h2, h3, h4, h5, h6 {
     background: white;
     padding: 1.2rem;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Ombre légère pour un effet de carte */
     height: 100%;
-    border: 1px solid rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.05); /* Bordure discrète */
 }
-.file-card h4 { color: #6a11cb; margin-top: 0; }
+.file-card h4 { 
+    color: #6a11cb; 
+    margin-top: 0; 
+}
 .file-card a {
     display: inline-block;
-    background: #6a11cb;
+    background: #6a11cb; /* Bouton avec couleur principale */
     color: white;
     padding: 0.45rem 0.9rem;
     border-radius: 6px;
     text-decoration: none;
     margin-top: 0.6rem;
     font-weight: 500;
-    transition: all 0.25s ease;
+    transition: all 0.25s ease; /* Animation fluide au survol */
 }
-.file-card a:hover { background: #2575fc; transform: translateY(-2px); }
+.file-card a:hover { 
+    background: #2575fc; /* Couleur plus vive au survol */
+    transform: translateY(-2px); /* Légère élévation au survol */
+}
 
 /* Onglets */
-.stTabs [data-baseweb="tab-list"] { gap: 6px; }
+.stTabs [data-baseweb="tab-list"] { 
+    gap: 6px; 
+}
 .stTabs [data-baseweb="tab"] {
-    background: #f8f9fa !important;
+    background: #f8f9fa !important; /* Fond clair pour les onglets */
     border-radius: 10px !important;
     padding: 10px 16px !important;
     transition: all 0.3s ease !important;
     font-weight: 500 !important;
 }
-.stTabs [data-baseweb="tab"]:hover { background: #e9ecef !important; }
+.stTabs [data-baseweb="tab"]:hover { 
+    background: #e9ecef !important; /* Couleur plus foncée au survol */
+}
 .stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%) !important;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%) !important; /* Dégradé pour l'onglet actif */
     color: white !important;
     font-weight: 600 !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Ombre pour l'onglet actif */
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .header { padding: 1rem; }
-    .kpi-card { padding: 1rem; }
-    .kpi-value { font-size: 1.9rem; }
+    .header { 
+        padding: 1rem; 
+    }
+    .kpi-card { 
+        padding: 1rem; 
+    }
+    .kpi-value { 
+        font-size: 1.9rem; 
+    }
 }
