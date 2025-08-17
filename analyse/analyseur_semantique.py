@@ -1,9 +1,38 @@
+"""
+Rôle global :
+Ce module est un analyseur sémantique conçu pour traiter et enrichir les données extraites d'un site web. 
+Il reformule, complète et structure les informations brutes pour les rendre exploitables dans des étapes ultérieures du pipeline.
+
+Importance :
+L'analyse sémantique est une étape clé dans le pipeline global (scraping → analyse → visualisation → rapport). 
+Elle permet de transformer des données brutes en informations organisées et compréhensibles, facilitant ainsi leur utilisation dans des rapports ou des visualisations. 
+Sans cette étape, les données extraites seraient souvent incomplètes ou non exploitables.
+
+Technologies utilisées :
+- `logging` : pour la gestion des erreurs et des avertissements.
+- Modules personnalisés : `resumeur` pour la génération de résumés, `classifier_theme` pour la classification thématique, et `cleaner` pour le nettoyage des textes.
+- Techniques NLP (Natural Language Processing) : utilisées pour reformuler et structurer les données textuelles.
+"""
+
 import logging
 from analyse.resumeur import generer_introduction_mt5, generer_resume_final_mt5
 from analyse.classifier_theme import classer_par_theme as classifier_theme
 from scraping.cleaner import nettoyer_texte
 
+# Fonction utilitaire pour joindre les éléments d'une liste en une chaîne de texte.
 def _safe_join_items(items):
+    """
+    Rôle :
+    Combine les éléments d'une liste en une seule chaîne de texte, en s'assurant que chaque élément est valide.
+
+    Fonctionnalité :
+    - Vérifie si chaque élément est un dictionnaire ou une chaîne.
+    - Extrait le contenu pertinent des dictionnaires ou convertit les éléments en chaînes.
+    - Filtre les éléments vides ou non pertinents.
+
+    Importance :
+    Cette fonction garantit que les données textuelles sont correctement formatées avant d'être utilisées dans l'analyse.
+    """
     out = []
     for it in items or []:
         if isinstance(it, dict):
@@ -12,10 +41,32 @@ def _safe_join_items(items):
             out.append(str(it))
     return "\n".join([x for x in out if x])
 
+# Fonction principale pour l'analyse sémantique d'un site web.
 def analyse_semantique_site(data: dict, url: str = None) -> dict:
     """
-    Prend l'extracteur output (incluant raw_text). Reformule tout sauf slogan/emails/phones/location.
-    Remplit sections vides à partir de raw_text.
+    Rôle :
+    Analyse et enrichit les données extraites d'un site web. Reformule les sections textuelles, complète les données manquantes, 
+    et structure les informations pour une utilisation ultérieure.
+
+    Fonctionnalité :
+    - Injecte l'URL dans les données si elle est fournie.
+    - Déstructure les données imbriquées pour simplifier leur traitement.
+    - Identifie et complète les sections clés (services, clients, technologies, blog, jobs) à partir des données brutes.
+    - Utilise un classificateur thématique pour remplir les sections vides.
+    - Applique des heuristiques pour détecter des informations pertinentes dans le texte brut.
+    - Génère une introduction et un résumé final à l'aide de modèles NLP.
+    - Nettoie et structure les données pour les rendre exploitables.
+
+    Importance :
+    Cette fonction est essentielle pour transformer des données brutes en informations organisées, 
+    facilitant leur intégration dans des rapports ou des visualisations.
+
+    Arguments :
+    - `data` : Dictionnaire contenant les données extraites d'un site web.
+    - `url` : URL du site web (facultatif).
+
+    Retour :
+    Un dictionnaire structuré contenant les informations analysées et enrichies.
     """
     if not data or not isinstance(data, dict):
         return {}
@@ -24,7 +75,7 @@ def analyse_semantique_site(data: dict, url: str = None) -> dict:
     if url:
         data["url"] = url
 
-    # unwrap data if nested
+    # Déstructure les données si elles sont imbriquées
     if "data" in data and isinstance(data["data"], dict):
         merged = {**data, **data["data"]}
         merged.pop("data", None)
@@ -33,14 +84,14 @@ def analyse_semantique_site(data: dict, url: str = None) -> dict:
     url = data.get("url", "")
     raw = data.get("raw_text", "") or _safe_join_items(data.get("services", [])) or ""
 
-    # Sections candidates
+    # Extraction des sections candidates
     services = [(it.get("content") if isinstance(it, dict) else str(it)) for it in data.get("services", [])]
     clients = [(it.get("content") if isinstance(it, dict) else str(it)) for it in data.get("clients", [])]
     techs = [(it.get("content") if isinstance(it, dict) else str(it)) for it in data.get("technologies", [])]
     blog = [(it.get("content") if isinstance(it, dict) else str(it)) for it in data.get("blog", [])]
     jobs = [(it.get("content") if isinstance(it, dict) else str(it)) for it in data.get("jobs", [])]
 
-    # Classif si vide
+    # Classification thématique pour compléter les sections vides
     try:
         classified = classifier_theme(raw)
         if not services and classified.get("services"):
@@ -56,7 +107,7 @@ def analyse_semantique_site(data: dict, url: str = None) -> dict:
     except Exception as e:
         logging.debug(f"⚠️ classifier_theme failed: {e}")
 
-    # Fallback heuristique
+    # Heuristiques pour détecter des informations dans le texte brut
     lines = [l.strip() for l in raw.splitlines() if l.strip()]
     if not services:
         services = [l for l in lines if any(k in l.lower() for k in ["service", "solution", "offre", "produit", "what we do"])][:8]
@@ -69,24 +120,36 @@ def analyse_semantique_site(data: dict, url: str = None) -> dict:
     if not jobs:
         jobs = [l for l in lines if any(k in l.lower() for k in ["job", "career", "poste", "recrutement", "hiring"])][:6]
 
-    # Inputs pour reformulation
+    # Préparation des entrées pour la reformulation
     reform_inputs = list(dict.fromkeys([x for x in (services + clients + techs + blog + jobs) if x and len(x) > 10]))
 
-    # Introduction et résumé final
+    # Génération de l'introduction
     try:
         intro = generer_introduction_mt5([raw] + reform_inputs)
     except Exception as e:
         logging.warning(f"⚠️ introduction generation failed: {e}")
         intro = data.get("slogan", "") or ""
 
+    # Génération du résumé final
     try:
         final_resume = generer_resume_final_mt5([raw] + reform_inputs)
     except Exception as e:
         logging.warning(f"⚠️ final resume failed: {e}")
         final_resume = ""
 
-    # Emballage final
+    # Fonction utilitaire pour structurer les listes
     def wrap_list(lst):
+        """
+        Rôle :
+        Nettoie et structure les éléments d'une liste pour les rendre exploitables.
+
+        Fonctionnalité :
+        - Nettoie chaque élément de la liste en supprimant les caractères inutiles.
+        - Structure chaque élément sous forme de dictionnaire avec l'URL et le contenu.
+
+        Importance :
+        Cette fonction garantit que les données sont prêtes pour une utilisation dans des rapports ou des visualisations.
+        """
         out = []
         for it in lst:
             if isinstance(it, dict):
@@ -98,6 +161,7 @@ def analyse_semantique_site(data: dict, url: str = None) -> dict:
                 out.append({"url": url, "content": c})
         return out
 
+    # Retourne les données enrichies et structurées
     return {
         "name": data.get("name", ""),
         "url": url,
