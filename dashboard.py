@@ -651,6 +651,66 @@ def main():
     # --- Introduction ---
     show_introduction()
 
+
+    
+
+    # --- Gestion du fichier sites.csv ---
+    st.markdown("## 📂 Gestion des entreprises")
+
+    csv_file = "sites.csv"
+
+    # Charger le CSV
+    if os.path.exists(csv_file):
+        df_sites = pd.read_csv(csv_file)
+    else:
+        df_sites = pd.DataFrame(columns=["name", "url"])
+
+    # Afficher le CSV
+    st.dataframe(df_sites, use_container_width=True)
+
+    # Ajouter une entreprise
+    with st.expander("➕ Ajouter une entreprise"):
+        with st.form("ajout_entreprise"):
+            new_name = st.text_input("Nom de l'entreprise")
+            new_url = st.text_input("URL du site")
+            submitted = st.form_submit_button("Ajouter")
+            if submitted:
+                if new_name and new_url:
+                    new_row = pd.DataFrame([[new_name, new_url]], columns=["name", "url"])
+                    df_sites = pd.concat([df_sites, new_row], ignore_index=True)
+                    df_sites.to_csv(csv_file, index=False)
+                    st.success(f"✅ {new_name} ajoutée !")
+                    st.rerun()
+                else:
+                    st.warning("⚠️ Merci de remplir les deux champs.")
+
+    # Supprimer une entreprise
+    with st.expander("🗑️ Supprimer une entreprise"):
+        with st.form("suppr_entreprise"):
+            if not df_sites.empty:
+                to_delete = st.selectbox("Sélectionner une entreprise à supprimer", df_sites["name"])
+                submitted = st.form_submit_button("Supprimer")
+                if submitted:
+                    df_sites = df_sites[df_sites["name"] != to_delete]
+                    df_sites.to_csv(csv_file, index=False)
+                    st.success(f"✅ {to_delete} supprimée !")
+                    st.rerun()
+            else:
+                st.info("📭 Aucune entreprise disponible.")
+
+    # Bouton pour lancer runall.py
+    st.subheader("⚡ Lancer l'analyse complète")
+    if st.button("▶️ Exécuter runall.py"):
+        import subprocess
+        try:
+            subprocess.run(["python", "runall.py"], check=True)
+            st.success("✅ Script terminé avec succès !")
+        except Exception as e:
+            st.error(f"❌ Erreur lors de l'exécution : {e}")
+
+
+
+
     # --- Fichiers sources ---
     st.sidebar.header("📂 Sources & fichiers")
     file_options = {
